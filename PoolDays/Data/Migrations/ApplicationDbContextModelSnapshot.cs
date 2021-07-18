@@ -244,9 +244,6 @@ namespace PoolDays.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Depth")
-                        .HasColumnType("float");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(3000)
@@ -261,6 +258,9 @@ namespace PoolDays.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
 
                     b.Property<string>("Manufacturer")
                         .IsRequired()

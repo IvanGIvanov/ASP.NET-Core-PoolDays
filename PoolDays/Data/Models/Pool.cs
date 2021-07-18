@@ -26,9 +26,9 @@ namespace PoolDays.Data.Models
 
         public double Height { get; set; }
 
-        public double Width { get; set; }
+        public double Length { get; set; }
 
-        public double Depth { get; set; }
+        public double Width { get; set; }
 
         public double? Diameter { get; set; }
 
