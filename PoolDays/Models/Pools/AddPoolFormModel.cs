@@ -31,6 +31,9 @@ namespace PoolDays.Models.Pools
         [Display(Name = "Image URL")]
         public string ImageUrl { get; init; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; init; }
+
+        public IEnumerable<PoolCategoryViewModel> Categories { get; set; }
     }
 }
