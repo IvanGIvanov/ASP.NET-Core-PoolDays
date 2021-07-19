@@ -21,6 +21,30 @@ namespace PoolDays.Controllers
             Categories = this.GetPoolCategories()
         });
 
+        public IActionResult All()
+        {
+            var pools = this.data
+                .Pools
+                .OrderByDescending(p => p.Id)
+                .Select(p => new PoolListViewModel
+                {
+                    Id = p.Id,
+                    Manufacturer = p.Manufacturer,
+                    Description = p.Description,
+                    Volume = p.Volume,
+                    Height = p.Height,
+                    Length = p.Length,
+                    Width = p.Width,
+                    PumpIncluded = p.PumpIncluded,
+                    Stairway = p.Stairway,
+                    ImageUrl = p.ImageUrl,
+                    Category = p.Category.Name
+                })
+                .ToList();
+
+            return View(pools);
+        }
+
         [HttpPost]
         public IActionResult Add(AddPoolFormModel pool)
         {
