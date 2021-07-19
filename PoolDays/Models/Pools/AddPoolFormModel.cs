@@ -27,19 +27,15 @@ namespace PoolDays.Models.Pools
         [MaxLength(PoolDescriptionMaxLength)]
         public string Description { get; init; }
 
-        [Required]
         [Range(PoolVolumeMinValue, PoolVolumeMaxValue)]
         public double Volume { get; init; }
 
-        [Required]
         [Range(PoolHeightMinValue, PoolHeightMaxValue)]
         public double Height { get; init; }
 
-        [Required]
-        [Range(PoolLengthMinValue, PoolLengthtMaxValue)]
+        [Range(PoolLengthMinValue, PoolLengthMaxValue)]
         public double Length { get; init; }
-
-        [Required]
+        
         [Range(PoolWidthtMinValue, PoolWidthMaxValue)]
         public double Width { get; init; }
 

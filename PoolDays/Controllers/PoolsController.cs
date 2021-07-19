@@ -24,7 +24,8 @@ namespace PoolDays.Controllers
         [HttpPost]
         public IActionResult Add(AddPoolFormModel pool)
         {
-            if (this.data.Categories.Any(p => p.Id == pool.CategoryId))
+
+            if (!this.data.Categories.Any(p => p.Id == pool.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(pool.CategoryId), "Category does not exist.");
             }
@@ -42,6 +43,7 @@ namespace PoolDays.Controllers
                 Model = pool.Model,
                 Description = pool.Description,
                 Volume = pool.Volume,
+                Length = pool.Length,
                 Height = pool.Height,
                 Width = pool.Width,
                 PumpIncluded = pool.PumpIncluded,

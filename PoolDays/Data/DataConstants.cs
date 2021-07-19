@@ -19,14 +19,14 @@ namespace PoolDays.Data
         public const int PoolVolumeMinValue = 1;
         public const int PoolVolumeMaxValue = 199;
 
-        public const double PoolHeightMinValue = 0.50;
-        public const double PoolHeightMaxValue = 4;
+        public const int PoolHeightMinValue = 50;
+        public const int PoolHeightMaxValue = 300;
 
-        public const int PoolLengthMinValue = 1;
-        public const int PoolLengthtMaxValue = 5;
+        public const int PoolLengthMinValue = 80;
+        public const int PoolLengthMaxValue = 5000;
 
-        public const double PoolWidthtMinValue = 1;
-        public const double PoolWidthMaxValue = 5;
+        public const int PoolWidthtMinValue = 80;
+        public const int PoolWidthMaxValue = 5000;
 
         public const int ImageURLStringMinLength = 15;
     }
