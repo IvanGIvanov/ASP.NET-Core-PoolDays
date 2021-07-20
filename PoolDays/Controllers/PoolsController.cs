@@ -30,6 +30,7 @@ namespace PoolDays.Controllers
                 {
                     Id = p.Id,
                     Manufacturer = p.Manufacturer,
+                    Model = p.Model,
                     Description = p.Description,
                     Volume = p.Volume,
                     Height = p.Height,

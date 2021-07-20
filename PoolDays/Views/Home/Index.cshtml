@@ -1,8 +1,64 @@
-﻿@{
+﻿@model IndexViewModel
+
+@{ 
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{ 
+    var pools = Model.Pools;
+
+    var firstPool = pools.Any() ? pools[0] : null;
+
+    var secondPool = pools.Count > 1 ? pools[1] : null;
+
+    var thirdPool = pools.Count > 2 ? pools[2] : null;
+}
+
+@if (!pools.Any())
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to PoolDays Website!</h1>
+        <p class="lead">Currently we don't have any products.'.</p>
+        <hr class="my-4">
+        <p>Want to help us? Please enter new pool record by clicking the button "Add Pool" below.</p>
+        <p class="lead">
+            <a asp-controller="Pools" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Pool</a>
+        </p>
+    </div>
+}
+
+<div class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner col-md-8" >
+        @if (firstPool != null)
+        {
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="@firstPool.ImageUrl" alt="@firstPool.Manufacturer-@firstPool.Model">
+            </div>
+        }
+        @if (secondPool != null)
+        {
+            <div class="carousel-item">
+                <img class="d-block w-100" src="@secondPool.ImageUrl" alt="@secondPool.Manufacturer-@secondPool.Model">
+            </div>
+        }
+        @if (thirdPool != null)
+        {
+            <div class="carousel-item">
+                <img class="d-block w-100" src="@thirdPool.ImageUrl" alt="@thirdPool.Manufacturer-@thirdPool.Model">
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mb-4"></div>
+
+<div class="jumbotron">
+    <div class="row text-center">
+            <h1 class="col-md-6">
+        @Model.TotalPools Pools
+            </h1>    
+            <h1 class="col-md-6">
+        @Model.TotalUsers Users
+            </h1>
+    </div>
 </div>
