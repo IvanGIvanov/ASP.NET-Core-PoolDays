@@ -79,7 +79,7 @@ namespace PoolDays.Controllers
             this.data.Pools.Add(poolData);
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
         }
 
         private IEnumerable<PoolCategoryViewModel> GetPoolCategories()

@@ -1,1 +1,22 @@
 ﻿@model IEnumerable<PoolListViewModel>
+
+@{ ViewData["Title"] = "All pools in "; }
+
+<span><h2 class="text-center">All pools</h2></span>
+<div class="row">
+    
+    
+    @foreach (var pool in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@pool.ImageUrl" alt="@pool.Manufacturer @pool.Model">
+                <div class="card-body">
+                    <h5 class="card-title">@pool.Manufacturer @pool.Model</h5>
+                    <p class="card-text">@pool.Description</p>
+                    <a asp-controller="Pools" asp-action="Details" asp-route-id="@pool.Id" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
