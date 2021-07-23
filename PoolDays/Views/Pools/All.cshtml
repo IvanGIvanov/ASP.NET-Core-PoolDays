@@ -1,12 +1,17 @@
-﻿@model IEnumerable<PoolListViewModel>
+﻿@model AllPoolsSearchQueryModel
 
 @{ ViewData["Title"] = "All pools in "; }
 
 <span><h2 class="text-center">All pools</h2></span>
-<div class="row">
-    
-    
-    @foreach (var pool in Model)
+
+<form method="get">
+    <div class="row">
+
+    </div>
+</form>
+
+<div class="row">  
+    @foreach (var pool in Model.Pools)
     {
         <div class="col-md-4 mb-3">
             <div class="card" style="width: 18rem;">

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PoolDays.Data.Models;
 using System;
@@ -18,6 +19,8 @@ namespace PoolDays.Data
 
         public DbSet<Category> Categories { get; init; }
 
+        public DbSet<Employee> Employees { get; init; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
@@ -25,6 +28,20 @@ namespace PoolDays.Data
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Pools)
                 .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Pool>()
+                .HasOne(p => p.Employee)
+                .WithMany(e => e.Pools)
+                .HasForeignKey(p => p.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Employee>()
+                .HasOne<IdentityUser>()
+                .WithOne()
+                .HasForeignKey<Employee>(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

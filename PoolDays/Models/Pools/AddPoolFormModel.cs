@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-using static PoolDays.Data.DataConstants;
+using static PoolDays.Data.DataConstants.Pool;
 
 namespace PoolDays.Models.Pools
 {

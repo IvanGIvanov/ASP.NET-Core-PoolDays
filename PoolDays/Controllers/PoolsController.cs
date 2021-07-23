@@ -43,7 +43,11 @@ namespace PoolDays.Controllers
                 })
                 .ToList();
 
-            return View(pools);
+            return View(new AllPoolsSearchQueryModel
+            {
+                Pools = pools,
+            }
+            );
         }
 
         [HttpPost]

@@ -3,22 +3,22 @@
 
 namespace PoolDays.Data.Models
 {
-    using static PoolDays.Data.DataConstants;
+    using static PoolDays.Data.DataConstants.Pool;
 
     public class Pool
     {
         public int Id { get; init; }
 
         [Required]
-        [MaxLength(DataConstants.PoolManufacturerMaxLength)]
+        [MaxLength(PoolManufacturerMaxLength)]
         public string Manufacturer { get; set; }
 
         [Required]
-        [MaxLength(DataConstants.PoolModelMaxLength)]
+        [MaxLength(PoolModelMaxLength)]
         public string Model { get; set; }
 
         [Required]
-        [MaxLength(DataConstants.PoolDescriptionMaxLength)]
+        [MaxLength(PoolDescriptionMaxLength)]
         public string Description { get; set; }
 
         [Range(1, 199)]
@@ -42,6 +42,10 @@ namespace PoolDays.Data.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+        public int EmployeeId { get; init; }
+
+        public Employee Employee { get; init; }
 
     }
 }
