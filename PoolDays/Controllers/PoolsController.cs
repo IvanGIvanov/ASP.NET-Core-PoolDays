@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
+using PoolDays.Infrastructure;
 using PoolDays.Models.Pools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PoolDays.Controllers
@@ -16,10 +19,20 @@ namespace PoolDays.Controllers
         public PoolsController(PoolDaysDBContext data) 
             => this.data = data;
 
-        public IActionResult Add() => View(new AddPoolFormModel
+        [Authorize]
+        public IActionResult Add()
         {
-            Categories = this.GetPoolCategories()
-        });
+            if (!this.UserIdEmployee())
+            {               
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            return View(new AddPoolFormModel
+            {
+                Categories = this.GetPoolCategories()
+
+            });
+        }
 
         public IActionResult All()
         {
@@ -46,13 +59,17 @@ namespace PoolDays.Controllers
             return View(new AllPoolsSearchQueryModel
             {
                 Pools = pools,
-            }
-            );
+            });
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddPoolFormModel pool)
         {
+            if (!this.UserIdEmployee())
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
 
             if (!this.data.Categories.Any(p => p.Id == pool.CategoryId))
             {
@@ -86,6 +103,11 @@ namespace PoolDays.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        private bool UserIdEmployee()
+            => this.data
+                .Employees
+                .Any(e => e.UserId == this.User.GetId());
 
         private IEnumerable<PoolCategoryViewModel> GetPoolCategories()
             => this.data
