@@ -15,6 +15,11 @@ namespace PoolDays.Controllers
     {
         private readonly PoolDaysDBContext data;
 
+        public EmployeesController(PoolDaysDBContext data)
+        {
+            this.data = data;
+        }
+
         [Authorize]
         public IActionResult Create() => View();
 

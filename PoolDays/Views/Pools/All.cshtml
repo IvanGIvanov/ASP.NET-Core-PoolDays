@@ -4,6 +4,11 @@
 
 <span><h2 class="text-center">All pools</h2></span>
 
+@if (!Model.Pools.Any())
+{
+<h2 class="text-center">No pools found!</h2>
+}
+
 <form method="get">
     <div class="row">
 

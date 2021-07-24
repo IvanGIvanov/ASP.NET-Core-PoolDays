@@ -22,7 +22,7 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIdEmployee())
+            if (!this.UserIsEmployee())
             {               
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
@@ -66,7 +66,13 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add(AddPoolFormModel pool)
         {
-            if (!this.UserIdEmployee())
+            var employeeId = this.data
+                .Employees
+                .Where(e => e.UserId == this.User.GetId())
+                .Select(e => e.Id)
+                .FirstOrDefault();
+
+            if (employeeId == 0)
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
@@ -95,7 +101,8 @@ namespace PoolDays.Controllers
                 PumpIncluded = pool.PumpIncluded,
                 Stairway = pool.Stairway,
                 ImageUrl = pool.ImageUrl,
-                CategoryId = pool.CategoryId
+                CategoryId = pool.CategoryId,
+                EmployeeId = employeeId,
             };
 
             this.data.Pools.Add(poolData);
@@ -104,7 +111,7 @@ namespace PoolDays.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        private bool UserIdEmployee()
+        private bool UserIsEmployee()
             => this.data
                 .Employees
                 .Any(e => e.UserId == this.User.GetId());
