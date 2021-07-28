@@ -34,8 +34,24 @@ namespace PoolDays.Controllers
             });
         }
 
-        public IActionResult All()
+        public IActionResult All(string manufacturer, string searchTerm)
         {
+            var poolQueriable = this.data.Pools.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(manufacturer))
+            {
+                poolQueriable = poolQueriable
+                    .Where(p => p.Manufacturer == manufacturer);
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                poolQueriable = poolQueriable
+                    .Where(p => p.Manufacturer.ToLower().Contains(searchTerm.ToLower())
+                    || p.Model.ToLower().Contains(searchTerm.ToLower())
+                    || p.Description.ToLower().Contains(searchTerm.ToLower()));
+            }
+
             var pools = this.data
                 .Pools
                 .OrderByDescending(p => p.Id)
@@ -56,9 +72,18 @@ namespace PoolDays.Controllers
                 })
                 .ToList();
 
+            var poolManufacturers = this.data
+                .Pools
+                .Select(p => p.Manufacturer)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToList();
+
             return View(new AllPoolsSearchQueryModel
             {
+                Manufacturers = poolManufacturers,
                 Pools = pools,
+                SearchTerm = searchTerm,
             });
         }
 

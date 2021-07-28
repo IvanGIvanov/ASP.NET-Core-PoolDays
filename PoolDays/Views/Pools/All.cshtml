@@ -2,23 +2,44 @@
 
 @{ ViewData["Title"] = "All pools in "; }
 
-<span><h2 class="text-center">All pools</h2></span>
+<h2 class="text-center">All pools</h2>
+
+<form method="get">
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="Manufacturer"></label>
+            <select asp-for="Manufacturer" class="form-control" id="exampleFormControlSelect1">
+                <option value="">All</option>
+                @foreach (var manufacturer in Model.Manufacturers)
+                {
+                    <option value="@manufacturer">@manufacturer</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <input asp-for="Sorting" class="form-control" placeholder="">
+            </div>
+        </div>
+    </div>
+</form>
 
 @if (!Model.Pools.Any())
 {
 <h2 class="text-center">No pools found!</h2>
 }
 
-<form method="get">
-    <div class="row">
-
-    </div>
-</form>
-
 <div class="row">  
     @foreach (var pool in Model.Pools)
     {
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4">
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="@pool.ImageUrl" alt="@pool.Manufacturer @pool.Model">
                 <div class="card-body">
