@@ -12,9 +12,10 @@ namespace PoolDays.Models.Pools
 
         public IEnumerable<string> Manufacturers { get; set; }
 
-        [Display(Name = "Search Term")]
+        [Display(Name = "Search Term:")]
         public string SearchTerm { get; set; }
 
+        [Display(Name = "Sort by:")]
         public PoolSorting Sorting { get; set; }
 
         public IEnumerable<PoolListViewModel> Pools { get; set; }

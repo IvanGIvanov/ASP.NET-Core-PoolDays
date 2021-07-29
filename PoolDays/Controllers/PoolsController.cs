@@ -34,26 +34,32 @@ namespace PoolDays.Controllers
             });
         }
 
-        public IActionResult All(string manufacturer, string searchTerm)
+        public IActionResult All([FromQuery]AllPoolsSearchQueryModel query)
         {
             var poolQueriable = this.data.Pools.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(manufacturer))
+            if (!string.IsNullOrWhiteSpace(query.Manufacturer))
             {
                 poolQueriable = poolQueriable
-                    .Where(p => p.Manufacturer == manufacturer);
+                    .Where(p => p.Manufacturer == query.Manufacturer);
             }
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
                 poolQueriable = poolQueriable
-                    .Where(p => p.Manufacturer.ToLower().Contains(searchTerm.ToLower())
-                    || p.Model.ToLower().Contains(searchTerm.ToLower())
-                    || p.Description.ToLower().Contains(searchTerm.ToLower()));
+                    .Where(p => p.Manufacturer.ToLower().Contains(query.SearchTerm.ToLower())
+                    || p.Model.ToLower().Contains(query.SearchTerm.ToLower())
+                    || p.Description.ToLower().Contains(query.SearchTerm.ToLower()));
             }
+
+            poolQueriable = query.Sorting switch
+            {
+                PoolSorting.Manufacturer => poolQueriable.OrderBy(p => p.Manufacturer),
+                PoolSorting.Volume => poolQueriable.OrderByDescending(p => p.Volume),
+                PoolSorting.Manufacturer or _ => poolQueriable.OrderByDescending(p => p.Id)
+            };
 
             var pools = poolQueriable
-                .OrderByDescending(p => p.Id)
                 .Select(p => new PoolListViewModel
                 {
                     Id = p.Id,
@@ -78,12 +84,10 @@ namespace PoolDays.Controllers
                 .OrderBy(p => p)
                 .ToList();
 
-            return View(new AllPoolsSearchQueryModel
-            {
-                Manufacturers = poolManufacturers,
-                Pools = pools,
-                SearchTerm = searchTerm,
-            });
+            query.Manufacturers = poolManufacturers;
+            query.Pools = pools;
+
+            return View(query);
         }
 
         [HttpPost]

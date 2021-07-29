@@ -7,7 +7,8 @@ namespace PoolDays.Models.Pools
 {
     public enum PoolSorting
     {
-        DateManufactured = 0,
-        Manufacturer = 1
+        Manufacturer = 0,
+        Volume = 1,
+        DateCreated = 2,
     }
 }
