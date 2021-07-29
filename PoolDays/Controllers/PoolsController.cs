@@ -56,7 +56,7 @@ namespace PoolDays.Controllers
             {
                 PoolSorting.Manufacturer => poolQueriable.OrderBy(p => p.Manufacturer),
                 PoolSorting.Volume => poolQueriable.OrderByDescending(p => p.Volume),
-                PoolSorting.Manufacturer or _ => poolQueriable.OrderByDescending(p => p.Id)
+                PoolSorting.DateCreated or _ => poolQueriable.OrderByDescending(p => p.Id)
             };
 
             var pools = poolQueriable
