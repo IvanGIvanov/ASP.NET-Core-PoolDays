@@ -8,7 +8,7 @@
     <div class="row">
         <div class="form-group">
             <label asp-for="Manufacturer"></label>
-            <select asp-for="Manufacturer" class="form-control" id="exampleFormControlSelect1">
+            <select asp-for="Manufacturer" class="form-control">
                 <option value="">All</option>
                 @foreach (var manufacturer in Model.Manufacturers)
                 {
@@ -28,6 +28,7 @@
                 <input asp-for="Sorting" class="form-control" placeholder="">
             </div>
         </div>
+        <input type="submit" class="btn btn-primary d-none" />
     </div>
 </form>
 

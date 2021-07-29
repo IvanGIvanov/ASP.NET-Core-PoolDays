@@ -52,8 +52,7 @@ namespace PoolDays.Controllers
                     || p.Description.ToLower().Contains(searchTerm.ToLower()));
             }
 
-            var pools = this.data
-                .Pools
+            var pools = poolQueriable
                 .OrderByDescending(p => p.Id)
                 .Select(p => new PoolListViewModel
                 {
