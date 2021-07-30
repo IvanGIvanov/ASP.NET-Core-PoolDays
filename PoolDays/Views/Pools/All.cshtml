@@ -58,3 +58,34 @@
         </div>
     }
 </div>
+
+@{ 
+    var previousPage = Model.CurrentPage - 1;
+    if(previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)(Model.TotalPools / AllPoolsSearchQueryModel.PoolsPerPage));
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty) float-left" 
+           asp-controller="Pools" 
+           asp-action="All" 
+           asp-route-currentPage="@(previousPage)"
+           asp-route-manufacturer="@(Model.Manufacturer)"
+           asp-route-searchterm="@(Model.SearchTerm)"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-primary @(Model.CurrentPage == maxPage ? "disabled" : string.Empty) float-right" 
+           asp-controller="Pools" 
+           asp-action="All" 
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-manufacturer="@(Model.Manufacturer)"
+           asp-route-searchterm="@(Model.SearchTerm)"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>

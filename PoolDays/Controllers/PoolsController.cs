@@ -35,7 +35,7 @@ namespace PoolDays.Controllers
         }
 
         public IActionResult All([FromQuery]AllPoolsSearchQueryModel query)
-        {
+        {           
             var poolQueriable = this.data.Pools.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.Manufacturer))
@@ -59,7 +59,11 @@ namespace PoolDays.Controllers
                 PoolSorting.DateCreated or _ => poolQueriable.OrderByDescending(p => p.Id)
             };
 
+            var totalPools = poolQueriable.Count();
+
             var pools = poolQueriable
+                .Skip((query.CurrentPage - 1) * AllPoolsSearchQueryModel.PoolsPerPage)
+                .Take(AllPoolsSearchQueryModel.PoolsPerPage)
                 .Select(p => new PoolListViewModel
                 {
                     Id = p.Id,
@@ -84,6 +88,7 @@ namespace PoolDays.Controllers
                 .OrderBy(p => p)
                 .ToList();
 
+            query.TotalPools = totalPools;
             query.Manufacturers = poolManufacturers;
             query.Pools = pools;
 

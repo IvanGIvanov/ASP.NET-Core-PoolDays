@@ -8,6 +8,8 @@ namespace PoolDays.Models.Pools
 {
     public class AllPoolsSearchQueryModel
     {
+        public const int PoolsPerPage = 3; 
+
         public string Manufacturer { get; set; }
 
         public IEnumerable<string> Manufacturers { get; set; }
@@ -16,7 +18,11 @@ namespace PoolDays.Models.Pools
         public string SearchTerm { get; set; }
 
         [Display(Name = "Sort by:")]
-        public PoolSorting Sorting { get; set; }
+        public PoolSorting Sorting { get; init; }
+
+        public int CurrentPage { get; set; } = 1;
+
+        public int TotalPools { get; set; }
 
         public IEnumerable<PoolListViewModel> Pools { get; set; }
     }
