@@ -21,6 +21,8 @@ namespace PoolDays.Controllers
         {
             var totalPools = this.data.Pools.Count();
 
+            var totalUsers = data.Users.Count();
+
             var pools = this.data
                 .Pools
                 .OrderByDescending(p => p.Id)
@@ -41,6 +43,7 @@ namespace PoolDays.Controllers
 
             return View(new IndexViewModel
             { 
+                TotalUsers = totalUsers,
                 TotalPools = totalPools,
                 Pools = pools,
             });
