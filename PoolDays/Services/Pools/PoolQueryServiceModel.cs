@@ -1,11 +1,12 @@
-﻿using System;
+﻿using PoolDays.Services.Pools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Models.Api.Pools
+namespace PoolDays.Services
 {
-    public class AllPoolsResponseApiModel
+    public class PoolQueryServiceModel
     {
         public int CurrentPage { get; set; }
 
@@ -13,6 +14,6 @@ namespace PoolDays.Models.Api.Pools
 
         public int PoolsPerPage { get; init; }
 
-        public IEnumerable<PoolResponseModel> Pools { get; init; }
+        public IEnumerable<PoolServiceModel> Pools { get; init; }
     }
 }

@@ -18,7 +18,5 @@ namespace PoolDays.Models.Api.Pools
         public int CurrentPage { get; init; } = 1;
 
         public int PoolsPerPage { get; init; } = 9;
-
-        public int TotalPools { get; init; }
     }
 }

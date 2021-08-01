@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Models.Api.Pools
+namespace PoolDays.Services.Pools
 {
-    public class PoolResponseModel
+    public class PoolServiceModel
     {
         public int Id { get; set; }
 
