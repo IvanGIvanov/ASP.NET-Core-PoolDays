@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Models.Api
+namespace PoolDays.Services.Statistics
 {
-    public class StatisticsResponseModel
+    public class StatisticsServiceModel
     {
         public int TotalPools { get; set; }
 

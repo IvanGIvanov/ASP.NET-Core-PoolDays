@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PoolDays.Data;
 using PoolDays.Models;
 using PoolDays.Models.Home;
+using PoolDays.Services.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,16 +14,17 @@ namespace PoolDays.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IStatisticsService statistics;
         private readonly PoolDaysDBContext data;
 
-        public HomeController(PoolDaysDBContext data)
-            => this.data = data;
+        public HomeController(IStatisticsService statistics, PoolDaysDBContext data)
+        {
+            this.statistics = statistics;
+            this.data = data;
+        }
+
         public IActionResult Index()
         {
-            var totalPools = this.data.Pools.Count();
-
-            var totalUsers = data.Users.Count();
-
             var pools = this.data
                 .Pools
                 .OrderByDescending(p => p.Id)
@@ -41,10 +43,12 @@ namespace PoolDays.Controllers
                 .Take(3)
                 .ToList();
 
+            var allStatistics = this.statistics.AllStatistics();
+
             return View(new IndexViewModel
             { 
-                TotalUsers = totalUsers,
-                TotalPools = totalPools,
+                TotalUsers = allStatistics.TotalUsers,
+                TotalPools = allStatistics.TotalPools,
                 Pools = pools,
             });
         }

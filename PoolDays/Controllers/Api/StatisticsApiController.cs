@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Models.Api;
+using PoolDays.Services.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,14 @@ namespace PoolDays.Controllers.Api
     [Route("api/statistics")]
     public class StatisticsApiController : ControllerBase
     {
-        private readonly PoolDaysDBContext data;
+        private readonly IStatisticsService statistics;
 
-        public StatisticsApiController(PoolDaysDBContext data) => this.data = data;
+        public StatisticsApiController(IStatisticsService statistics) => this.statistics = statistics;
 
         [HttpGet]
-        public StatisticsResponseModel GetStatistics()
+        public StatisticsServiceModel GetStatistics()
         {
-            return new StatisticsResponseModel
-            {
-                TotalPools = this.data.Pools.Count(),
-                TotalUsers = this.data.Users.Count()
-            };
+            return this.statistics.AllStatistics();
         }
     }
 }

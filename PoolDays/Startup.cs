@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PoolDays.Data;
 using PoolDays.Infrastructure;
+using PoolDays.Services.Statistics;
 
 namespace PoolDays
 {
@@ -37,6 +38,8 @@ namespace PoolDays
                 .AddEntityFrameworkStores<PoolDaysDBContext>();
             
             services.AddControllersWithViews();
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
