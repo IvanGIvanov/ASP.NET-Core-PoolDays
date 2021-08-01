@@ -14,5 +14,7 @@ namespace PoolDays.Services.Pools
             PoolSorting sorting,
             int currentPage,
             int poolsPerPage);
+
+        IEnumerable<string> AllPoolManufacturers();
     }
 }

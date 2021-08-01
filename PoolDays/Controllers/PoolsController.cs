@@ -4,6 +4,7 @@ using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Models.Pools;
+using PoolDays.Services.Pools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,15 @@ namespace PoolDays.Controllers
 {
     public class PoolsController : Controller
     {
+        private readonly IPoolService pools;
         private readonly PoolDaysDBContext data;
 
-        public PoolsController(PoolDaysDBContext data) 
-            => this.data = data;
+        public PoolsController(IPoolService pools, PoolDaysDBContext data)
+        {
+            this.pools = pools;
+            this.data = data;
+        }
+            
 
         [Authorize]
         public IActionResult Add()
@@ -35,62 +41,19 @@ namespace PoolDays.Controllers
         }
 
         public IActionResult All([FromQuery]AllPoolsSearchQueryModel query)
-        {           
-            var poolQueriable = this.data.Pools.AsQueryable();
+        {
+            var queryResult = this.pools.All(
+                query.Manufacturer,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllPoolsSearchQueryModel.PoolsPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.Manufacturer))
-            {
-                poolQueriable = poolQueriable
-                    .Where(p => p.Manufacturer == query.Manufacturer);
-            }
-
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                poolQueriable = poolQueriable
-                    .Where(p => p.Manufacturer.ToLower().Contains(query.SearchTerm.ToLower())
-                    || p.Model.ToLower().Contains(query.SearchTerm.ToLower())
-                    || p.Description.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            poolQueriable = query.Sorting switch
-            {
-                PoolSorting.Manufacturer => poolQueriable.OrderBy(p => p.Manufacturer),
-                PoolSorting.Volume => poolQueriable.OrderByDescending(p => p.Volume),
-                PoolSorting.DateCreated or _ => poolQueriable.OrderByDescending(p => p.Id)
-            };
-
-            var totalPools = poolQueriable.Count();
-
-            var pools = poolQueriable
-                .Skip((query.CurrentPage - 1) * AllPoolsSearchQueryModel.PoolsPerPage)
-                .Take(AllPoolsSearchQueryModel.PoolsPerPage)
-                .Select(p => new PoolListViewModel
-                {
-                    Id = p.Id,
-                    Manufacturer = p.Manufacturer,
-                    Model = p.Model,
-                    Description = p.Description,
-                    Volume = p.Volume,
-                    Height = p.Height,
-                    Length = p.Length,
-                    Width = p.Width,
-                    PumpIncluded = p.PumpIncluded,
-                    Stairway = p.Stairway,
-                    ImageUrl = p.ImageUrl,
-                    Category = p.Category.Name
-                })
-                .ToList();
-
-            var poolManufacturers = this.data
-                .Pools
-                .Select(p => p.Manufacturer)
-                .Distinct()
-                .OrderBy(p => p)
-                .ToList();
-
-            query.TotalPools = totalPools;
+            var poolManufacturers = this.pools.AllPoolManufacturers();
+            
+            query.TotalPools = queryResult.TotalPools;
             query.Manufacturers = poolManufacturers;
-            query.Pools = pools;
+            query.Pools = queryResult.Pools;
 
             return View(query);
         }

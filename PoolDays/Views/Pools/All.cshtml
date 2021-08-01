@@ -66,7 +66,7 @@
         previousPage = 1;
     }
 
-    var maxPage = Math.Ceiling((double)(Model.TotalPools / AllPoolsSearchQueryModel.PoolsPerPage));
+    var maxPage = Math.Round((double)Model.TotalPools / AllPoolsSearchQueryModel.PoolsPerPage);
 }
 
 <div class="row">

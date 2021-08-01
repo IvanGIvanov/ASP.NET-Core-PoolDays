@@ -74,5 +74,15 @@ namespace PoolDays.Services.Pools
                 Pools = pools,
             };
         }
+
+        public IEnumerable<string> AllPoolManufacturers()
+        {
+            return this.data
+                .Pools
+                .Select(p => p.Manufacturer)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToList();
+        }
     }
 }

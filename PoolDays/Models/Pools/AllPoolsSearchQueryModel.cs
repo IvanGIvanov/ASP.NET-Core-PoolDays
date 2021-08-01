@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PoolDays.Services.Pools;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,6 @@ namespace PoolDays.Models.Pools
 
         public int TotalPools { get; set; }
 
-        public IEnumerable<PoolListViewModel> Pools { get; set; }
+        public IEnumerable<PoolServiceModel> Pools { get; set; }
     }
 }
