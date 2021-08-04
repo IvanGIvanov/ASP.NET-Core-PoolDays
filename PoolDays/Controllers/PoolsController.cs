@@ -36,7 +36,6 @@ namespace PoolDays.Controllers
             return View(new AddPoolFormModel
             {
                 Categories = this.GetPoolCategories()
-
             });
         }
 

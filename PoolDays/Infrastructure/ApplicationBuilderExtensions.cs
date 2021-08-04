@@ -37,6 +37,8 @@ namespace PoolDays.Infrastructure
                 new Category { Name = "Rectange"},
                 new Category { Name = "Eight"},
                 new Category { Name = "Square"},
+                new Category { Name = "Indoor"},
+                new Category { Name = "Outdoor"},
             });
 
             data.SaveChanges();
