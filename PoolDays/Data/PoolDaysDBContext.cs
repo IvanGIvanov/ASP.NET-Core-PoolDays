@@ -21,6 +21,8 @@ namespace PoolDays.Data
 
         public DbSet<Employee> Employees { get; init; }
 
+        public DbSet<Jacuzzi> Jacuzzies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
@@ -42,6 +44,13 @@ namespace PoolDays.Data
                 .HasOne<IdentityUser>()
                 .WithOne()
                 .HasForeignKey<Employee>(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Jacuzzi>()
+                .HasOne(j => j.Employee)
+                .WithMany(e => e.Jacuzzies)
+                .HasForeignKey(j => j.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

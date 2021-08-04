@@ -25,5 +25,7 @@ namespace PoolDays.Data.Models
 
         public IEnumerable<Pool> Pools { get; set; } = new List<Pool>();
 
+        public IEnumerable<Jacuzzi> Jacuzzies { get; set; } = new List<Jacuzzi>();
+
     }
 }

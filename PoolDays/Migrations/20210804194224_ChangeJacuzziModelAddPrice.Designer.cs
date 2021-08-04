@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PoolDays.Data;
 
 namespace PoolDays.Migrations
 {
     [DbContext(typeof(PoolDaysDBContext))]
-    partial class PoolDaysDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210804194224_ChangeJacuzziModelAddPrice")]
+    partial class ChangeJacuzziModelAddPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,9 +361,6 @@ namespace PoolDays.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("PumpIncluded")
                         .HasColumnType("bit");

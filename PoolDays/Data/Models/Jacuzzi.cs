@@ -1,24 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PoolDays.Data.Models
 {
-    using static PoolDays.Data.DataConstants.Pool;
-
-    public class Pool
+    using static PoolDays.Data.DataConstants.Jacuzzi;
+    public class Jacuzzi
     {
         public int Id { get; init; }
 
         [Required]
-        [MaxLength(PoolManufacturerMaxLength)]
+        [MaxLength(JacuzziManufacturerMaxLength)]
         public string Manufacturer { get; set; }
 
         [Required]
-        [MaxLength(PoolModelMaxLength)]
+        [MaxLength(JacuzziModelMaxLength)]
         public string Model { get; set; }
 
         [Required]
-        [MaxLength(PoolDescriptionMaxLength)]
+        [MaxLength(JacuzziDescriptionMaxLength)]
         public string Description { get; set; }
 
         [Range(1, 199)]
@@ -30,13 +32,7 @@ namespace PoolDays.Data.Models
 
         public double Width { get; set; }
 
-        public double? Diameter { get; set; }
-
         public decimal Price { get; set; }
-
-        public bool PumpIncluded { get; set; }
-
-        public bool Stairway { get; set; }
 
         [Required]
         public string ImageUrl { get; set; }
@@ -48,6 +44,5 @@ namespace PoolDays.Data.Models
         public int EmployeeId { get; init; }
 
         public Employee Employee { get; init; }
-
     }
 }

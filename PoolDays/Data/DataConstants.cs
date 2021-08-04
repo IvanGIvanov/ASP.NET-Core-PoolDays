@@ -40,6 +40,32 @@ namespace PoolDays.Data
 
             public const int EmployeeNumberMinValue = 6;
             public const int EmployeeNumberMaxValue = 15;
-        }        
+        } 
+        
+        public class Jacuzzi
+        {
+            public const int JacuzziManufacturerMinLength = 2;
+            public const int JacuzziManufacturerMaxLength = 20;
+
+            public const int JacuzziModelMinLength = 2;
+            public const int JacuzziModelMaxLength = 30;
+
+            public const int JacuzziDescriptionMinLength = 10;
+            public const int JacuzziDescriptionMaxLength = 3000;
+
+            public const int JacuzziVolumeMinValue = 1;
+            public const int JacuzziVolumeMaxValue = 199;
+
+            public const int JacuzziHeightMinValue = 50;
+            public const int JacuzziHeightMaxValue = 300;
+
+            public const int JacuzziLengthMinValue = 80;
+            public const int JacuzziLengthMaxValue = 5000;
+
+            public const int JacuzziWidthtMinValue = 80;
+            public const int JacuzziWidthMaxValue = 5000;
+
+            public const int ImageURLStringMinLength = 15;
+        }
     }
 }
