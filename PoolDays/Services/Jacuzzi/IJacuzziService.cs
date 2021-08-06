@@ -1,21 +1,21 @@
 ﻿using PoolDays.Models;
-using PoolDays.Models.Pools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Services.Pools
+namespace PoolDays.Services.Jacuzzi
 {
-    public interface IPoolService
+    public interface IJacuzziService
     {
-        PoolQueryServiceModel All(
+        JacuzziQueryServiceModel All(
             string manufacturer,
             string searchTerm,
             Sorting sorting,
             int currentPage,
-            int poolsPerPage);
+            int jacuzziPerPage);
 
-        IEnumerable<string> AllPoolManufacturers();
+        IEnumerable<string> AllJacuzziManufacturers();
     }
 }
+

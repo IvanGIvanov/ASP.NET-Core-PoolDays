@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PoolDays.Data;
 using PoolDays.Infrastructure;
+using PoolDays.Services.Jacuzzi;
 using PoolDays.Services.Pools;
 using PoolDays.Services.Statistics;
 
@@ -46,6 +47,7 @@ namespace PoolDays
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IPoolService, PoolService>();
+            services.AddTransient<IJacuzziService, JacuzziService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
+using PoolDays.Models;
 using PoolDays.Models.Pools;
 using PoolDays.Services.Pools;
 using System;

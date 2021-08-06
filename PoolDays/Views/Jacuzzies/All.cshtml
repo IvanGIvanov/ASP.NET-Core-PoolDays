@@ -1,0 +1,91 @@
+﻿@model AllJacuzzieSearchQueryModel
+
+@{ ViewData["Title"] = "All jacuzzies - "; }
+
+<h2 class="text-center mb-4">All jacuzzies</h2>
+
+<form method="get">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="form-group">
+                <label asp-for="Manufacturer"></label>
+                <select asp-for="Manufacturer" class="form-control">
+                    <option value="">All</option>
+                    @foreach (var manufacturer in Model.Manufacturers)
+                    {
+                        <option value="@manufacturer">@manufacturer</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0">Manufacturer</option>
+                    <option value="1">Volume</option>
+                    <option value="2">Date created</option>
+                </select>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary d-none" />
+    </div>
+</form>
+
+@if (!Model.Jacuzzies.Any())
+{
+    <h2 class="text-center">No pools found!</h2>
+}
+
+<div class="row">
+    @foreach (var pool in Model.Jacuzzies)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@pool.ImageUrl" alt="@pool.Manufacturer @pool.Model">
+                <div class="card-body">
+                    <h5 class="card-title">@pool.Manufacturer @pool.Model</h5>
+                    <p class="card-text">@pool.Description</p>
+                    <a asp-controller="Pools" asp-action="Details" asp-route-id="@pool.Id" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Round((double)Model.TotalJacuzzi / AllJacuzzieSearchQueryModel.JacuzziPerPage);
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty) float-left"
+           asp-controller="Pools"
+           asp-action="All"
+           asp-route-currentPage="@(previousPage)"
+           asp-route-manufacturer="@(Model.Manufacturer)"
+           asp-route-searchterm="@(Model.SearchTerm)"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-primary @(Model.CurrentPage == maxPage ? "disabled" : string.Empty) float-right"
+           asp-controller="Pools"
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-manufacturer="@(Model.Manufacturer)"
+           asp-route-searchterm="@(Model.SearchTerm)"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>

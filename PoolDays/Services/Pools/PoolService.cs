@@ -1,4 +1,5 @@
 ﻿using PoolDays.Data;
+using PoolDays.Models;
 using PoolDays.Models.Pools;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace PoolDays.Services.Pools
         public PoolQueryServiceModel All(
             string manufacturer, 
             string searchTerm, 
-            PoolSorting sorting,
+            Sorting sorting,
             int currentPage,
             int poolsPerPage)
         {
@@ -39,9 +40,9 @@ namespace PoolDays.Services.Pools
 
             poolQueriable = sorting switch
             {
-                PoolSorting.Manufacturer => poolQueriable.OrderBy(p => p.Manufacturer),
-                PoolSorting.Volume => poolQueriable.OrderByDescending(p => p.Volume),
-                PoolSorting.DateCreated or _ => poolQueriable.OrderByDescending(p => p.Id)
+                Sorting.Manufacturer => poolQueriable.OrderBy(p => p.Manufacturer),
+                Sorting.Volume => poolQueriable.OrderByDescending(p => p.Volume),
+                Sorting.DateCreated or _ => poolQueriable.OrderByDescending(p => p.Id)
             };
 
             var totalPools = poolQueriable.Count();

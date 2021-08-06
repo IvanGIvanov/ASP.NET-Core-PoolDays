@@ -53,7 +53,7 @@ namespace PoolDays.Controllers
             this.data.Employees.Add(employeeModel);
             this.data.SaveChanges();
 
-            return RedirectToAction("All", "Pools");
+            return RedirectToAction(nameof(PoolsController.All), "Pools");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace PoolDays.Models.Api.Pools
 
         public string SearchTerm { get; set; }
 
-        public PoolSorting Sorting { get; init; }
+        public Sorting Sorting { get; init; }
 
         public int CurrentPage { get; init; } = 1;
 

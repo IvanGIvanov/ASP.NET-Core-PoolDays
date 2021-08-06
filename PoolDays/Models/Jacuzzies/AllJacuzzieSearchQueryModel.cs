@@ -1,15 +1,16 @@
-﻿using PoolDays.Services.Pools;
+﻿using PoolDays.Data.Models;
+using PoolDays.Services.Jacuzzi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Models.Pools
+namespace PoolDays.Models.Jacuzzies
 {
-    public class AllPoolsSearchQueryModel
+    public class AllJacuzzieSearchQueryModel
     {
-        public const int PoolsPerPage = 3; 
+        public const int JacuzziPerPage = 3;
 
         public string Manufacturer { get; set; }
 
@@ -23,8 +24,8 @@ namespace PoolDays.Models.Pools
 
         public int CurrentPage { get; set; } = 1;
 
-        public int TotalPools { get; set; }
+        public int TotalJacuzzi { get; set; }
 
-        public IEnumerable<PoolServiceModel> Pools { get; set; }
+        public IEnumerable<JacuzziServiceModel> Jacuzzies { get; set; }
     }
 }

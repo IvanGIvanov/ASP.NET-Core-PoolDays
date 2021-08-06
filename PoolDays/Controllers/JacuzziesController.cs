@@ -4,6 +4,7 @@ using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Models.Jacuzzies;
+using PoolDays.Services.Jacuzzi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,14 @@ namespace PoolDays.Controllers
 {
     public class JacuzziesController : Controller
     {
+        private readonly IJacuzziService jacuzzies;
         private readonly PoolDaysDBContext data;
 
-        public JacuzziesController(PoolDaysDBContext data) => this.data = data;
+        public JacuzziesController(IJacuzziService jacuzzies, PoolDaysDBContext data) 
+        {
+            this.jacuzzies = jacuzzies;
+            this.data = data;
+        }
 
         public IActionResult Add()
         {
@@ -28,6 +34,24 @@ namespace PoolDays.Controllers
             {
                 Categories = this.GetJacuzziCategories()
             });
+        }
+
+        public IActionResult All([FromQuery] AllJacuzzieSearchQueryModel query)
+        {
+            var queryResult = this.jacuzzies.All(
+                query.Manufacturer,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllJacuzzieSearchQueryModel.JacuzziPerPage);
+
+            var jacuzzieManufacturers = this.jacuzzies.AllJacuzziManufacturers();
+
+            query.TotalJacuzzi = queryResult.TotalJacuzzies;
+            query.Manufacturers = jacuzzieManufacturers;
+            query.Jacuzzies = queryResult.Jacuzzies;
+
+            return View(query);
         }
 
         [HttpPost]
