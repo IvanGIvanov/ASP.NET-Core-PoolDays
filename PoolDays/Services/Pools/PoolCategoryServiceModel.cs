@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PoolDays.Models.Pools
 {
-    public class PoolCategoryViewModel
+    public class PoolCategoryServiceModel
     {
         public int Id { get; init; }
 

@@ -1,5 +1,6 @@
 ﻿using PoolDays.Data;
 using PoolDays.Models;
+using PoolDays.Models.Jacuzzies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,5 +84,18 @@ namespace PoolDays.Services.Jacuzzi
                 .OrderBy(p => p)
                 .ToList();
         }
+
+        public IEnumerable<JacuzziCategoryServiceModel> AllJacuzziCategories()
+            => this.data
+                .Categories
+                .Select(j => new JacuzziCategoryServiceModel
+                {
+                    Id = j.Id,
+                    Name = j.Name,
+                })
+                .ToList();
+
+        public bool CategoryExists(int categoryId)
+            => this.data.Categories.Any(p => p.Id == categoryId);
     }
 }

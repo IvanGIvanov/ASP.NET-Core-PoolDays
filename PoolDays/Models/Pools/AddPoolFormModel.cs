@@ -54,6 +54,6 @@ namespace PoolDays.Models.Pools
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 
-        public IEnumerable<PoolCategoryViewModel> Categories { get; set; }
+        public IEnumerable<PoolCategoryServiceModel> Categories { get; set; }
     }
 }

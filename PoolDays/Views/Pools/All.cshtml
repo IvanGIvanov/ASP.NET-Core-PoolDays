@@ -67,6 +67,11 @@
     }
 
     var maxPage = Math.Round((double)Model.TotalPools / AllPoolsSearchQueryModel.PoolsPerPage);
+    
+    if (AllPoolsSearchQueryModel.PoolsPerPage > Model.TotalPools)
+    {
+        maxPage = 1;
+    }
 }
 
 <div class="row">

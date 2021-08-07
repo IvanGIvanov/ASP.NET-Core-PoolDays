@@ -1,4 +1,5 @@
 ﻿using PoolDays.Data;
+using PoolDays.Data.Models;
 using PoolDays.Models;
 using PoolDays.Models.Pools;
 using System;
@@ -107,6 +108,43 @@ namespace PoolDays.Services.Pools
                 .ToList();
         }
 
-        
+        public IEnumerable<PoolCategoryServiceModel> AllPoolCategories()
+            => this.data
+                .Categories
+                .Select(p => new PoolCategoryServiceModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                })
+                .ToList();
+
+        public bool CategoryExists(int categoryId)
+            => this.data.Categories.Any(p => p.Id == categoryId);
+
+        public int Create(string manufacturer, string model, string description, double volume, double length, 
+            double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId, 
+            int? employeeId)
+        {
+            var poolData = new Pool
+            {
+                Manufacturer = manufacturer,
+                Model = model,
+                Description = description,
+                Volume = volume,
+                Length = length,
+                Height = height,
+                Width = width,
+                PumpIncluded = pumpIncluded,
+                Stairway = stairway,
+                ImageUrl = imageUrl,
+                CategoryId = categoryId,
+                EmployeeId = employeeId,
+            };
+
+            this.data.Pools.Add(poolData);
+            this.data.SaveChanges();
+
+            return poolData.Id;
+        }
     }
 }

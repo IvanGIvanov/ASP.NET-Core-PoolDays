@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PoolDays.Models.Jacuzzies
 {
-    public class JacuzziCategoryViewModel
+    public class JacuzziCategoryServiceModel
     {
         public int Id { get; init; }
 

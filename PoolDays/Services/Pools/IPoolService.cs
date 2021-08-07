@@ -1,4 +1,5 @@
-﻿using PoolDays.Models;
+﻿using PoolDays.Data.Models;
+using PoolDays.Models;
 using PoolDays.Models.Pools;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,16 @@ namespace PoolDays.Services.Pools
             int currentPage,
             int poolsPerPage);
 
+        int Create(string manufacturer, string model, string description, double volume, double length,
+            double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
+            int? employeeId);
+
         PoolServiceModel Details(int id);
 
         IEnumerable<string> AllPoolManufacturers();
+
+        IEnumerable<PoolCategoryServiceModel> AllPoolCategories();
+
+        public bool CategoryExists(int categoryId);
     }
 }

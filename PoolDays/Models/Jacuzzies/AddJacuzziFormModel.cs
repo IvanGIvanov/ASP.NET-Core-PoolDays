@@ -40,6 +40,6 @@ namespace PoolDays.Models.Jacuzzies
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        public IEnumerable<JacuzziCategoryViewModel> Categories { get; set; }
+        public IEnumerable<JacuzziCategoryServiceModel> Categories { get; set; }
     }
 }

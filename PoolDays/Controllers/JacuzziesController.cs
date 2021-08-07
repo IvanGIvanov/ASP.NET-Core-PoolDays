@@ -28,14 +28,14 @@ namespace PoolDays.Controllers
 
         public IActionResult Add()
         {
-            if (!this.employee.UserIsEmployee(User.GetId()))
+            if (!this.employee.UserIsEmployee(this.User.GetId()))
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
             return View(new AddJacuzziFormModel
             {
-                Categories = this.GetJacuzziCategories()
+                Categories = this.jacuzzies.AllJacuzziCategories()
             });
         }
 
@@ -61,25 +61,21 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add(AddJacuzziFormModel jacuzzi)
         {
-            var employeeId = this.data
-                .Employees
-                .Where(e => e.UserId == this.User.GetId())
-                .Select(e => e.Id)
-                .FirstOrDefault();
+            var employeeId = employee.EmployeeId(this.User.GetId());
 
             if (employeeId == 0)
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
-            
-            if (!this.data.Categories.Any(c => c.Id == jacuzzi.CategoryId))
+
+            if (!jacuzzies.CategoryExists(jacuzzi.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(jacuzzi.CategoryId), "Category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
-                jacuzzi.Categories = this.GetJacuzziCategories();
+                jacuzzi.Categories = this.jacuzzies.AllJacuzziCategories();
 
                 return View(jacuzzi);
             }
@@ -104,16 +100,5 @@ namespace PoolDays.Controllers
 
             return View();
         }
-
-        private IEnumerable<JacuzziCategoryViewModel> GetJacuzziCategories()
-            => this.data
-                .Categories
-                .Select(j => new JacuzziCategoryViewModel
-                {
-                    Id = j.Id,
-                    Name = j.Name,
-                })
-                .ToList();
-        
     }
 }

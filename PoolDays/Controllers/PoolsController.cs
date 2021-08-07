@@ -32,14 +32,14 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.employee.UserIsEmployee(User.GetId()))
+            if (!this.employee.UserIsEmployee(this.User.GetId()))
             {               
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
             return View(new AddPoolFormModel
             {
-                Categories = this.GetPoolCategories()
+                Categories = this.pools.AllPoolCategories()
             });
         }
 
@@ -65,59 +65,29 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add(AddPoolFormModel pool)
         {
-            var employeeId = this.data
-                .Employees
-                .Where(e => e.UserId == this.User.GetId())
-                .Select(e => e.Id)
-                .FirstOrDefault();
+            var employeeId = employee.EmployeeId(this.User.GetId());
 
             if (employeeId == 0)
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
-            if (!this.data.Categories.Any(p => p.Id == pool.CategoryId))
+            if (!pools.CategoryExists(pool.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(pool.CategoryId), "Category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
-                pool.Categories = this.GetPoolCategories();
+                pool.Categories = this.pools.AllPoolCategories();
 
                 return View(pool);
             }
 
-            var poolData = new Pool
-            {
-                Manufacturer = pool.Manufacturer,
-                Model = pool.Model,
-                Description = pool.Description,
-                Volume = pool.Volume,
-                Length = pool.Length,
-                Height = pool.Height,
-                Width = pool.Width,
-                PumpIncluded = pool.PumpIncluded,
-                Stairway = pool.Stairway,
-                ImageUrl = pool.ImageUrl,
-                CategoryId = pool.CategoryId,
-                EmployeeId = employeeId,
-            };
-
-            this.data.Pools.Add(poolData);
-            this.data.SaveChanges();
+            this.pools.Create(pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
+                pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
 
             return RedirectToAction(nameof(All));
         }
-
-        private IEnumerable<PoolCategoryViewModel> GetPoolCategories()
-            => this.data
-                .Categories
-                .Select(p => new PoolCategoryViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name
-                })
-                .ToList();
     }
 }

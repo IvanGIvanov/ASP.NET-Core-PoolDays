@@ -1,9 +1,5 @@
 ﻿using PoolDays.Data;
-
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PoolDays.Services.Employee
 {
@@ -15,6 +11,13 @@ namespace PoolDays.Services.Employee
         {
             this.data = data;
         }
+
+        public int? EmployeeId(string userId)
+            => this.data
+                .Employees
+                .Where(e => e.UserId == userId)
+                .Select(e => e.Id)
+                .FirstOrDefault();
 
         public bool UserIsEmployee(string userId)
         => this.data

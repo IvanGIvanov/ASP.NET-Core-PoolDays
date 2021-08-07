@@ -1,4 +1,5 @@
 ﻿using PoolDays.Models;
+using PoolDays.Models.Jacuzzies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace PoolDays.Services.Jacuzzi
             int jacuzziPerPage);
 
         IEnumerable<string> AllJacuzziManufacturers();
+
+        IEnumerable<JacuzziCategoryServiceModel> AllJacuzziCategories();
+
+        public bool CategoryExists(int categoryId);
     }
 }
 

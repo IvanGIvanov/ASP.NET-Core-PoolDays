@@ -8,5 +8,7 @@ namespace PoolDays.Services.Employee
     public interface IEmployeeService
     {
         public bool UserIsEmployee(string userId);
+
+        public int? EmployeeId(string userId);
     }
 }
