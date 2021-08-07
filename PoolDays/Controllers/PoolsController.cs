@@ -5,6 +5,7 @@ using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Models;
 using PoolDays.Models.Pools;
+using PoolDays.Services.Employee;
 using PoolDays.Services.Pools;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ namespace PoolDays.Controllers
 {
     public class PoolsController : Controller
     {
+        private readonly IEmployeeService employee;
         private readonly IPoolService pools;
         private readonly PoolDaysDBContext data;
 
-        public PoolsController(IPoolService pools, PoolDaysDBContext data)
+        public PoolsController(IEmployeeService employee, IPoolService pools, PoolDaysDBContext data)
         {
+            this.employee = employee;
             this.pools = pools;
             this.data = data;
         }
@@ -29,7 +32,7 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsEmployee())
+            if (!this.employee.UserIsEmployee(User.GetId()))
             {               
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
@@ -106,11 +109,6 @@ namespace PoolDays.Controllers
 
             return RedirectToAction(nameof(All));
         }
-
-        private bool UserIsEmployee()
-            => this.data
-                .Employees
-                .Any(e => e.UserId == this.User.GetId());
 
         private IEnumerable<PoolCategoryViewModel> GetPoolCategories()
             => this.data

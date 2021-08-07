@@ -16,6 +16,8 @@ namespace PoolDays.Services.Pools
             int currentPage,
             int poolsPerPage);
 
+        PoolServiceModel Details(int id);
+
         IEnumerable<string> AllPoolManufacturers();
     }
 }

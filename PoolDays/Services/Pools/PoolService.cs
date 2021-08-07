@@ -76,6 +76,27 @@ namespace PoolDays.Services.Pools
             };
         }
 
+        public PoolServiceModel Details(int id)
+            => this.data
+            .Pools
+            .Where(p => p.Id == id)
+            .Select(p => new PoolServiceModel
+            {
+                Id = p.Id,
+                Manufacturer = p.Manufacturer,
+                Model = p.Model,
+                Description = p.Description,
+                Volume = p.Volume,
+                Height = p.Height,
+                Length = p.Length,
+                Width = p.Width,
+                PumpIncluded = p.PumpIncluded,
+                Stairway = p.Stairway,
+                ImageUrl = p.ImageUrl,
+                Category = p.Category.Name
+            })
+            .FirstOrDefault();
+
         public IEnumerable<string> AllPoolManufacturers()
         {
             return this.data
@@ -85,5 +106,7 @@ namespace PoolDays.Services.Pools
                 .OrderBy(p => p)
                 .ToList();
         }
+
+        
     }
 }

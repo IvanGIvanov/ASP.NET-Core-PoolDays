@@ -4,6 +4,7 @@ using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Models.Jacuzzies;
+using PoolDays.Services.Employee;
 using PoolDays.Services.Jacuzzi;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,20 @@ namespace PoolDays.Controllers
 {
     public class JacuzziesController : Controller
     {
+        private readonly IEmployeeService employee;
         private readonly IJacuzziService jacuzzies;
         private readonly PoolDaysDBContext data;
 
-        public JacuzziesController(IJacuzziService jacuzzies, PoolDaysDBContext data) 
+        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data) 
         {
+            this.employee = employee;
             this.jacuzzies = jacuzzies;
             this.data = data;
         }
 
         public IActionResult Add()
         {
-            if (!this.IsUserEmpoyee())
+            if (!this.employee.UserIsEmployee(User.GetId()))
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
@@ -101,11 +104,6 @@ namespace PoolDays.Controllers
 
             return View();
         }
-
-        private bool IsUserEmpoyee()
-            => this.data
-            .Employees
-            .Any(e => e.UserId == this.User.GetId());
 
         private IEnumerable<JacuzziCategoryViewModel> GetJacuzziCategories()
             => this.data

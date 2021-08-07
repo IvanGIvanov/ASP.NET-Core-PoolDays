@@ -20,12 +20,13 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Pools" asp-action="Add">Add Pool</a>
-                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Jacuzzies" asp-action="Add">Add Jacuzzi</a>
-                                    </li>}
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pools" asp-action="Add">Add Pool</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Jacuzzies" asp-action="Add">Add Jacuzzi</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Pools" asp-action="All">All Pools</a>
                         </li>
