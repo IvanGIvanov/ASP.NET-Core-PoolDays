@@ -1,4 +1,5 @@
 ﻿using PoolDays.Data;
+using PoolDays.Data.Models;
 using PoolDays.Models;
 using PoolDays.Models.Jacuzzies;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Services.Jacuzzi
+namespace PoolDays.Services.Jacuzzies
 {
     public class JacuzziService : IJacuzziService
     {
@@ -97,5 +98,29 @@ namespace PoolDays.Services.Jacuzzi
 
         public bool CategoryExists(int categoryId)
             => this.data.Categories.Any(p => p.Id == categoryId);
+
+        public int Create(string manufacturer, string model, string description, double volume, double height, 
+            double length, double width, decimal price, string imageUrl, int categoryId, int employeeId)
+        {
+            var jacuzziData = new Jacuzzi
+            {
+                Manufacturer = manufacturer,
+                Model = model,
+                Description = description,
+                Volume = volume,
+                Height = height,
+                Length = length,
+                Width = width,
+                Price = price,
+                ImageUrl = imageUrl,
+                CategoryId = categoryId,
+                EmployeeId = employeeId,
+            };
+
+            this.data.Add(jacuzziData);
+            this.data.SaveChanges();
+
+            return jacuzziData.Id;
+        }
     }
 }

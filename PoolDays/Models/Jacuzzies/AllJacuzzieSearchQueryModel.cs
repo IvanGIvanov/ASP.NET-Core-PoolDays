@@ -1,5 +1,5 @@
 ﻿using PoolDays.Data.Models;
-using PoolDays.Services.Jacuzzi;
+using PoolDays.Services.Jacuzzies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

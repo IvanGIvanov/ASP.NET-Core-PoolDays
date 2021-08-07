@@ -21,6 +21,10 @@ namespace PoolDays.Services.Pools
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
             int? employeeId);
 
+        bool Edit(int id, string manufacturer, string model, string description, double volume, double length,
+            double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
+            int? employeeId);
+
         PoolServiceModel Details(int id);
 
         IEnumerable<string> AllPoolManufacturers();

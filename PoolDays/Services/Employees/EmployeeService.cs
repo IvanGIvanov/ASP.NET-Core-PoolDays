@@ -1,7 +1,7 @@
 ﻿using PoolDays.Data;
 using System.Linq;
 
-namespace PoolDays.Services.Employee
+namespace PoolDays.Services.Employees
 {
     public class EmployeeService : IEmployeeService
     {

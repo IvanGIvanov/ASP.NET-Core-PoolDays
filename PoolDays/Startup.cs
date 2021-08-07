@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PoolDays.Data;
 using PoolDays.Infrastructure;
-using PoolDays.Services.Employee;
-using PoolDays.Services.Jacuzzi;
+using PoolDays.Services.Employees;
+using PoolDays.Services.Jacuzzies;
 using PoolDays.Services.Pools;
 using PoolDays.Services.Statistics;
 

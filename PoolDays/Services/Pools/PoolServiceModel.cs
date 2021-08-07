@@ -30,5 +30,9 @@ namespace PoolDays.Services.Pools
         public string ImageUrl { get; set; }
 
         public string Category { get; set; }
+
+        public int CategoryId { get; set; } 
+
+        public int? EmployeeId { get; set; }
     }
 }

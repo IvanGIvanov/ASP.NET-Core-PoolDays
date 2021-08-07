@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolDays.Services.Jacuzzi
+namespace PoolDays.Services.Jacuzzies
 {
     public class JacuzziQueryServiceModel
     {

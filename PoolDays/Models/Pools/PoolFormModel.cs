@@ -8,7 +8,7 @@ using static PoolDays.Data.DataConstants.Pool;
 
 namespace PoolDays.Models.Pools
 {
-    public class AddPoolFormModel
+    public class PoolFormModel
     {
         [Required]
         [StringLength(

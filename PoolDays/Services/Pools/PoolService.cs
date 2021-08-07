@@ -94,7 +94,8 @@ namespace PoolDays.Services.Pools
                 PumpIncluded = p.PumpIncluded,
                 Stairway = p.Stairway,
                 ImageUrl = p.ImageUrl,
-                Category = p.Category.Name
+                Category = p.Category.Name,
+                EmployeeId = p.EmployeeId,
             })
             .FirstOrDefault();
 
@@ -145,6 +146,34 @@ namespace PoolDays.Services.Pools
             this.data.SaveChanges();
 
             return poolData.Id;
+        }
+
+        public bool Edit(int id, string manufacturer, string model, string description, double volume, double length, 
+            double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId, 
+            int? employeeId)
+        {
+            var poolData = this.data.Pools.Find(id);
+
+            if (poolData.EmployeeId != employeeId)
+            {
+                return false;
+            }
+
+            poolData.Manufacturer = manufacturer;
+            poolData.Model = model;
+            poolData.Description = description;
+            poolData.Volume = volume;
+            poolData.Length = length;
+            poolData.Height = height;
+            poolData.Width = width;
+            poolData.PumpIncluded = pumpIncluded;
+            poolData.Stairway = stairway;
+            poolData.ImageUrl = imageUrl;
+            poolData.CategoryId = categoryId;
+
+            this.data.SaveChanges();
+
+            return true;
         }
     }
 }

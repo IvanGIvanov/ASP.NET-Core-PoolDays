@@ -5,7 +5,7 @@ using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Models;
 using PoolDays.Models.Pools;
-using PoolDays.Services.Employee;
+using PoolDays.Services.Employees;
 using PoolDays.Services.Pools;
 using System;
 using System.Collections.Generic;
@@ -19,13 +19,11 @@ namespace PoolDays.Controllers
     {
         private readonly IEmployeeService employee;
         private readonly IPoolService pools;
-        private readonly PoolDaysDBContext data;
 
-        public PoolsController(IEmployeeService employee, IPoolService pools, PoolDaysDBContext data)
+        public PoolsController(IEmployeeService employee, IPoolService pools)
         {
             this.employee = employee;
             this.pools = pools;
-            this.data = data;
         }
             
 
@@ -37,7 +35,7 @@ namespace PoolDays.Controllers
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
-            return View(new AddPoolFormModel
+            return View(new PoolFormModel
             {
                 Categories = this.pools.AllPoolCategories()
             });
@@ -63,7 +61,7 @@ namespace PoolDays.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddPoolFormModel pool)
+        public IActionResult Add(PoolFormModel pool)
         {
             var employeeId = employee.EmployeeId(this.User.GetId());
 
@@ -86,6 +84,62 @@ namespace PoolDays.Controllers
 
             this.pools.Create(pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
                 pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var employeeId = employee.EmployeeId(this.User.GetId());
+
+            if (employeeId == 0)
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            var pool = this.pools.Details(id);
+
+            if (pool.EmployeeId != employeeId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new PoolFormModel
+            {
+                Manufacturer = pool.Manufacturer,
+                Model = pool.Model,
+                Description = pool.Description,
+                Volume = pool.Volume,
+                Height = pool.Height,
+                Length = pool.Length,
+                Width = pool.Width,
+                PumpIncluded = pool.PumpIncluded,
+                Stairway = pool.Stairway,
+                ImageUrl = pool.ImageUrl,
+                CategoryId = pool.CategoryId,
+                Categories = this.pools.AllPoolCategories()
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id, PoolFormModel pool)
+        {
+            var employeeId = employee.EmployeeId(this.User.GetId());
+
+            if (employeeId == 0)
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            var isEdited = this.pools.Edit(id, pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
+                pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
+
+            if (!isEdited)
+            {
+                return BadRequest();
+            }
 
             return RedirectToAction(nameof(All));
         }
