@@ -9,6 +9,6 @@ namespace PoolDays.Services.Employees
     {
         public bool UserIsEmployee(string userId);
 
-        public int? EmployeeId(string userId);
+        public int EmployeeId(string userId);
     }
 }

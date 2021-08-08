@@ -12,7 +12,7 @@ namespace PoolDays.Services.Employees
             this.data = data;
         }
 
-        public int? EmployeeId(string userId)
+        public int EmployeeId(string userId)
             => this.data
                 .Employees
                 .Where(e => e.UserId == userId)

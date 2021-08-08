@@ -45,7 +45,7 @@ namespace PoolDays.Data.Models
 
         public Category Category { get; set; }
 
-        public int? EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
 
         public Employee Employee { get; init; }
 

@@ -17,11 +17,11 @@ namespace PoolDays.Services.Jacuzzies
             int jacuzziPerPage);
 
         int Create(string manufacturer, string model, string description, double volume, double height, double length,
-                   double width, decimal price, string imageUrl, int categoryId, int? employeeId);
+                   double width, decimal price, string imageUrl, int categoryId, int employeeId);
 
         bool Edit(int id, string manufacturer, string model, string description, double volume, double length,
             double height, double width, decimal Price, string imageUrl, int categoryId,
-            int? employeeId);
+            int employeeId);
 
         JacuzziServiceModel Details(int id);
 

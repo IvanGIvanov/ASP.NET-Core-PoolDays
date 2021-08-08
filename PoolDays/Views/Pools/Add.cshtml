@@ -1,8 +1,6 @@
 ﻿@model PoolFormModel
 
-@{
-    ViewData["Title"] = "Add Pool - ";
-}
+@{ ViewData["Title"] = "Add Pool - "; }
 
 <div class="container"
     <div class="row">
@@ -81,3 +79,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

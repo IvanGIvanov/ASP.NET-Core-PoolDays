@@ -33,6 +33,6 @@ namespace PoolDays.Services.Pools
 
         public int CategoryId { get; set; } 
 
-        public int? EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace PoolDays.Controllers
         private readonly IEmployeeService employee;
         private readonly IJacuzziService jacuzzies;
 
-        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies) 
+        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data) 
         {
             this.employee = employee;
             this.jacuzzies = jacuzzies;
@@ -89,14 +89,14 @@ namespace PoolDays.Controllers
         {
             var employeeId = employee.EmployeeId(this.User.GetId());
 
-            if (employeeId == 0)
+            if (employeeId == 0 && !User.isAdmin())
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
             var jacuzzi = this.jacuzzies.Details(id);
 
-            if (jacuzzi.EmployeeId != employeeId)
+            if (jacuzzi.EmployeeId != employeeId && !User.isAdmin())
             {
                 return Unauthorized();
             }
@@ -123,7 +123,7 @@ namespace PoolDays.Controllers
         {
             var employeeId = employee.EmployeeId(this.User.GetId());
 
-            if (employeeId == 0)
+            if (employeeId == 0 && !User.isAdmin())
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
@@ -132,7 +132,7 @@ namespace PoolDays.Controllers
                 jacuzzi.Volume, jacuzzi.Length, jacuzzi.Height, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl,
                 jacuzzi.CategoryId, employeeId);
 
-            if (!isEdited)
+            if (!isEdited && !User.isAdmin())
             {
                 return BadRequest();
             }

@@ -100,7 +100,7 @@ namespace PoolDays.Services.Jacuzzies
             => this.data.Categories.Any(p => p.Id == categoryId);
 
         public int Create(string manufacturer, string model, string description, double volume, double height, 
-            double length, double width, decimal price, string imageUrl, int categoryId, int? employeeId)
+            double length, double width, decimal price, string imageUrl, int categoryId, int employeeId)
         {
             var jacuzziData = new Jacuzzi
             {
@@ -125,7 +125,7 @@ namespace PoolDays.Services.Jacuzzies
 
         public bool Edit(int id, string manufacturer, string model, string description, double volume, 
             double length, double height, double width, decimal price, string imageUrl, 
-            int categoryId, int? employeeId)
+            int categoryId, int employeeId)
         {
             var jacuzziData = this.data.Jacuzzies.Find(id);
 

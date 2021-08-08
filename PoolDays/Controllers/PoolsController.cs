@@ -93,14 +93,14 @@ namespace PoolDays.Controllers
         {
             var employeeId = employee.EmployeeId(this.User.GetId());
 
-            if (employeeId == 0)
+            if (employeeId == 0 && !User.isAdmin())
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
             var pool = this.pools.Details(id);
 
-            if (pool.EmployeeId != employeeId)
+            if (pool.EmployeeId != employeeId && !User.isAdmin())
             {
                 return Unauthorized();
             }
@@ -128,7 +128,7 @@ namespace PoolDays.Controllers
         {
             var employeeId = employee.EmployeeId(this.User.GetId());
 
-            if (employeeId == 0)
+            if (employeeId == 0 && !User.isAdmin())
             {
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
@@ -136,7 +136,7 @@ namespace PoolDays.Controllers
             var isEdited = this.pools.Edit(id, pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
                 pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
 
-            if (!isEdited)
+            if (!isEdited && !User.isAdmin())
             {
                 return BadRequest();
             }
