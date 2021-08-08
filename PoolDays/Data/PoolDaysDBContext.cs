@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PoolDays.Data
 {
-    public class PoolDaysDBContext : IdentityDbContext
+    public class PoolDaysDBContext : IdentityDbContext<User>
     {
         public PoolDaysDBContext(DbContextOptions<PoolDaysDBContext> options)
             : base(options)
@@ -41,7 +41,7 @@ namespace PoolDays.Data
 
             builder
                 .Entity<Employee>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Employee>(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

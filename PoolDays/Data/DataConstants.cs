@@ -7,6 +7,15 @@ namespace PoolDays.Data
 {
     public class DataConstants
     {
+        public class User
+        {
+            public const int UserFirstNameMinLength = 2;
+            public const int UserFirstNameMaxLength = 15;
+
+            public const int UserLastNameMinLength = 2;
+            public const int UserLastNameMaxLength = 15;
+        }
+
         public class Pool
         {
             public const int PoolManufacturerMinLength = 2;

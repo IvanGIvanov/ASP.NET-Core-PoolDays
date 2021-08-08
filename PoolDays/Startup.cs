@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PoolDays.Data;
+using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Services.Employees;
 using PoolDays.Services.Jacuzzies;
@@ -32,13 +33,14 @@ namespace PoolDays
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PoolDaysDBContext>();
             
             services.AddControllersWithViews(options => 
