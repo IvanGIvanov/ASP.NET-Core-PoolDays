@@ -30,6 +30,8 @@ namespace PoolDays.Services.Jacuzzies
 
         public string Category { get; set; }
 
-        public int EmployeeId { get; init; }
+        public int CategoryId { get; set; }
+
+        public int? EmployeeId { get; set; }
     }
 }

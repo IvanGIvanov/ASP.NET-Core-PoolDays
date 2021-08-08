@@ -17,13 +17,11 @@ namespace PoolDays.Controllers
     {
         private readonly IEmployeeService employee;
         private readonly IJacuzziService jacuzzies;
-        private readonly PoolDaysDBContext data;
 
-        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data) 
+        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies) 
         {
             this.employee = employee;
             this.jacuzzies = jacuzzies;
-            this.data = data;
         }
 
         public IActionResult Add()
@@ -33,7 +31,7 @@ namespace PoolDays.Controllers
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
-            return View(new AddJacuzziFormModel
+            return View(new JacuzziFormModel
             {
                 Categories = this.jacuzzies.AllJacuzziCategories()
             });
@@ -59,7 +57,7 @@ namespace PoolDays.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddJacuzziFormModel jacuzzi)
+        public IActionResult Add(JacuzziFormModel jacuzzi)
         {
             var employeeId = employee.EmployeeId(this.User.GetId());
 
@@ -80,7 +78,30 @@ namespace PoolDays.Controllers
                 return View(jacuzzi);
             }
 
-            var jacuzziData = new Jacuzzi
+            this.jacuzzies.Create(jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, jacuzzi.Volume, jacuzzi.Height,
+            jacuzzi.Length, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl, jacuzzi.CategoryId, employeeId);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var employeeId = employee.EmployeeId(this.User.GetId());
+
+            if (employeeId == 0)
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            var jacuzzi = this.jacuzzies.Details(id);
+
+            if (jacuzzi.EmployeeId != employeeId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new JacuzziFormModel
             {
                 Manufacturer = jacuzzi.Manufacturer,
                 Model = jacuzzi.Model,
@@ -92,13 +113,31 @@ namespace PoolDays.Controllers
                 Price = jacuzzi.Price,
                 ImageUrl = jacuzzi.ImageUrl,
                 CategoryId = jacuzzi.CategoryId,
-                EmployeeId = employeeId
-            };
+                Categories = this.jacuzzies.AllJacuzziCategories()
+            });
+        }
 
-            this.data.Add(jacuzziData);
-            this.data.SaveChanges();
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id, JacuzziFormModel jacuzzi)
+        {
+            var employeeId = employee.EmployeeId(this.User.GetId());
 
-            return View();
+            if (employeeId == 0)
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            var isEdited = this.jacuzzies.Edit(id, jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, 
+                jacuzzi.Volume, jacuzzi.Length, jacuzzi.Height, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl,
+                jacuzzi.CategoryId, employeeId);
+
+            if (!isEdited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

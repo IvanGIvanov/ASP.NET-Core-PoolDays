@@ -100,7 +100,7 @@ namespace PoolDays.Services.Jacuzzies
             => this.data.Categories.Any(p => p.Id == categoryId);
 
         public int Create(string manufacturer, string model, string description, double volume, double height, 
-            double length, double width, decimal price, string imageUrl, int categoryId, int employeeId)
+            double length, double width, decimal price, string imageUrl, int categoryId, int? employeeId)
         {
             var jacuzziData = new Jacuzzi
             {
@@ -122,5 +122,55 @@ namespace PoolDays.Services.Jacuzzies
 
             return jacuzziData.Id;
         }
+
+        public bool Edit(int id, string manufacturer, string model, string description, double volume, 
+            double length, double height, double width, decimal price, string imageUrl, 
+            int categoryId, int? employeeId)
+        {
+            var jacuzziData = this.data.Jacuzzies.Find(id);
+
+            if (jacuzziData.EmployeeId != employeeId)
+            {
+                return false;
+            }
+
+            jacuzziData.Manufacturer = manufacturer;
+            jacuzziData.Model = model;
+            jacuzziData.Description = description;
+            jacuzziData.Volume = volume;
+            jacuzziData.Length = length;
+            jacuzziData.Height = height;
+            jacuzziData.Width = width;
+            jacuzziData.Price = price;
+            jacuzziData.ImageUrl = imageUrl;
+            jacuzziData.CategoryId = categoryId;
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public JacuzziServiceModel Details(int id)
+          => this.data
+            .Jacuzzies
+            .Where(j => j.Id == id)
+            .Select(j => new JacuzziServiceModel
+            {
+                Id = j.Id,
+                Manufacturer = j.Manufacturer,
+                Model = j.Model,
+                Description = j.Description,
+                Volume = j.Volume,
+                Height = j.Height,
+                Length = j.Length,
+                Width = j.Width,
+                Price = j.Price,
+                ImageUrl = j.ImageUrl,
+                Category = j.Category.Name,
+                CategoryId = j.CategoryId,
+                EmployeeId = j.EmployeeId,
+            })
+            .FirstOrDefault();
+        
     }
 }

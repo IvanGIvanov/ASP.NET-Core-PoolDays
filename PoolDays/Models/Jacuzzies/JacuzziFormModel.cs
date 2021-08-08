@@ -8,7 +8,7 @@ namespace PoolDays.Models.Jacuzzies
 {
     using static Data.DataConstants.Jacuzzi;
 
-    public class AddJacuzziFormModel
+    public class JacuzziFormModel
     {    
         public string Manufacturer { get; set; }
 
