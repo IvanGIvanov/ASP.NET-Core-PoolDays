@@ -40,20 +40,20 @@
 
 @if (!Model.Jacuzzies.Any())
 {
-    <h2 class="text-center">No pools found!</h2>
+<h2 class="text-center">No jacuzzi found!</h2>
 }
 
 <div class="row">
-    @foreach (var pool in Model.Jacuzzies)
+    @foreach (var jacuzzi in Model.Jacuzzies)
     {
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@pool.ImageUrl" alt="@pool.Manufacturer @pool.Model">
+                <img class="card-img-top" src="@jacuzzi.ImageUrl" alt="@jacuzzi.Manufacturer @jacuzzi.Model">
                 <div class="card-body">
-                    <h5 class="card-title">@pool.Manufacturer @pool.Model</h5>
-                    <p class="card-text">@pool.Description</p>
-                    <a asp-controller="Pools" asp-action="Details" asp-route-id="@pool.Id" class="btn btn-primary">Details</a>
-                    <a asp-controller="Pools" asp-action="Edit" asp-route-id="@pool.Id" class="btn btn-info">Edit</a>
+                    <h5 class="card-title">@jacuzzi.Manufacturer @jacuzzi.Model</h5>
+                    <p class="card-text">@jacuzzi.Description</p>
+                    <a asp-controller="Jacuzzies" asp-action="Details" asp-route-id="@jacuzzi.Id" class="btn btn-primary">Details</a>
+                    <a asp-controller="Jacuzzies" asp-action="Edit" asp-route-id="@jacuzzi.Id" class="btn btn-info">Edit</a>
                 </div>
             </div>
         </div>

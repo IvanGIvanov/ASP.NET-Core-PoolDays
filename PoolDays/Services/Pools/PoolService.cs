@@ -1,4 +1,6 @@
-﻿using PoolDays.Data;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Models;
 using PoolDays.Models.Pools;
@@ -13,8 +15,13 @@ namespace PoolDays.Services.Pools
     public class PoolService : IPoolService
     {
         private readonly PoolDaysDBContext data;
+        private readonly IMapper mapper;
 
-        public PoolService(PoolDaysDBContext data) => this.data = data;
+        public PoolService(PoolDaysDBContext data, IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
 
 
         public PoolQueryServiceModel All(
@@ -52,21 +59,7 @@ namespace PoolDays.Services.Pools
             var pools = poolQueriable
                 .Skip((currentPage - 1) * poolsPerPage)
                 .Take(poolsPerPage)
-                .Select(p => new PoolServiceModel
-                {
-                    Id = p.Id,
-                    Manufacturer = p.Manufacturer,
-                    Model = p.Model,
-                    Description = p.Description,
-                    Volume = p.Volume,
-                    Height = p.Height,
-                    Length = p.Length,
-                    Width = p.Width,
-                    PumpIncluded = p.PumpIncluded,
-                    Stairway = p.Stairway,
-                    ImageUrl = p.ImageUrl,
-                    Category = p.Category.Name
-                })
+                .ProjectTo<PoolServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             return new PoolQueryServiceModel
@@ -82,23 +75,7 @@ namespace PoolDays.Services.Pools
             => this.data
             .Pools
             .Where(p => p.Id == id)
-            .Select(p => new PoolServiceModel
-            {
-                Id = p.Id,
-                Manufacturer = p.Manufacturer,
-                Model = p.Model,
-                Description = p.Description,
-                Volume = p.Volume,
-                Height = p.Height,
-                Length = p.Length,
-                Width = p.Width,
-                PumpIncluded = p.PumpIncluded,
-                Stairway = p.Stairway,
-                ImageUrl = p.ImageUrl,
-                Category = p.Category.Name,
-                CategoryId = p.CategoryId,
-                EmployeeId = p.EmployeeId,
-            })
+            .ProjectTo<PoolServiceModel>(this.mapper.ConfigurationProvider)
             .FirstOrDefault();
 
         public IEnumerable<string> AllPoolManufacturers()

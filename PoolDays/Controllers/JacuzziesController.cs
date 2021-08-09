@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
@@ -17,11 +18,13 @@ namespace PoolDays.Controllers
     {
         private readonly IEmployeeService employee;
         private readonly IJacuzziService jacuzzies;
+        private readonly IMapper mapper;
 
-        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data) 
+        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data, IMapper mapper)
         {
             this.employee = employee;
             this.jacuzzies = jacuzzies;
+            this.mapper = mapper;
         }
 
         public IActionResult Add()
@@ -101,20 +104,10 @@ namespace PoolDays.Controllers
                 return Unauthorized();
             }
 
-            return View(new JacuzziFormModel
-            {
-                Manufacturer = jacuzzi.Manufacturer,
-                Model = jacuzzi.Model,
-                Description = jacuzzi.Description,
-                Volume = jacuzzi.Volume,
-                Height = jacuzzi.Height,
-                Length = jacuzzi.Length,
-                Width = jacuzzi.Width,
-                Price = jacuzzi.Price,
-                ImageUrl = jacuzzi.ImageUrl,
-                CategoryId = jacuzzi.CategoryId,
-                Categories = this.jacuzzies.AllJacuzziCategories()
-            });
+            var jacuzziForm = mapper.Map<JacuzziFormModel>(jacuzzi);
+            jacuzziForm.Categories = this.jacuzzies.AllJacuzziCategories();
+
+            return View(jacuzziForm);
         }
 
         [HttpPost]

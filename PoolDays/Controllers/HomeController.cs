@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PoolDays.Data;
 using PoolDays.Models;
@@ -16,11 +18,13 @@ namespace PoolDays.Controllers
     {
         private readonly IStatisticsService statistics;
         private readonly PoolDaysDBContext data;
+        private readonly IMapper mapper;
 
-        public HomeController(IStatisticsService statistics, PoolDaysDBContext data)
+        public HomeController(IStatisticsService statistics, PoolDaysDBContext data, IMapper mapper)
         {
             this.statistics = statistics;
             this.data = data;
+            this.mapper = mapper;
         }
 
         public IActionResult Index()
@@ -28,18 +32,7 @@ namespace PoolDays.Controllers
             var pools = this.data
                 .Pools
                 .OrderByDescending(p => p.Id)
-                .Select(p => new PoolIndexViewModel
-                {
-                    Id = p.Id,
-                    Manufacturer = p.Manufacturer,
-                    Model = p.Model,
-                    Description = p.Description,
-                    Volume = p.Volume,
-                    Height = p.Height,
-                    Length = p.Length,
-                    Width = p.Width,
-                    ImageUrl = p.ImageUrl,
-                })
+                .ProjectTo<PoolIndexViewModel>(this.mapper.ConfigurationProvider)
                 .Take(3)
                 .ToList();
 

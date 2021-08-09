@@ -1,4 +1,6 @@
-﻿using PoolDays.Data;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Models;
 using PoolDays.Models.Jacuzzies;
@@ -12,8 +14,13 @@ namespace PoolDays.Services.Jacuzzies
     public class JacuzziService : IJacuzziService
     {
         private readonly PoolDaysDBContext data;
+        private readonly IMapper mapper;
 
-        public JacuzziService(PoolDaysDBContext data) => this.data = data;
+        public JacuzziService(PoolDaysDBContext data, IMapper mapper) 
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
 
 
         public JacuzziQueryServiceModel All(
@@ -51,20 +58,7 @@ namespace PoolDays.Services.Jacuzzies
             var jacuzzies = jacuzzieQueriable
                 .Skip((currentPage - 1) * jaccuziPerPage)
                 .Take(jaccuziPerPage)
-                .Select(j => new JacuzziServiceModel
-                {
-                    Id = j.Id,
-                    Manufacturer = j.Manufacturer,
-                    Model = j.Model,
-                    Description = j.Description,
-                    Volume = j.Volume,
-                    Height = j.Height,
-                    Length = j.Length,
-                    Width = j.Width,
-                    Price = j.Price,
-                    ImageUrl = j.ImageUrl,
-                    Category = j.Category.Name
-                })
+                .ProjectTo<JacuzziServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             return new JacuzziQueryServiceModel
@@ -149,22 +143,7 @@ namespace PoolDays.Services.Jacuzzies
           => this.data
             .Jacuzzies
             .Where(j => j.Id == id)
-            .Select(j => new JacuzziServiceModel
-            {
-                Id = j.Id,
-                Manufacturer = j.Manufacturer,
-                Model = j.Model,
-                Description = j.Description,
-                Volume = j.Volume,
-                Height = j.Height,
-                Length = j.Length,
-                Width = j.Width,
-                Price = j.Price,
-                ImageUrl = j.ImageUrl,
-                Category = j.Category.Name,
-                CategoryId = j.CategoryId,
-                EmployeeId = j.EmployeeId,
-            })
+            .ProjectTo<JacuzziServiceModel>(this.mapper.ConfigurationProvider)
             .FirstOrDefault();
         
     }
