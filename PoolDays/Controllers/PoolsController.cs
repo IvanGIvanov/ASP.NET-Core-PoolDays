@@ -128,7 +128,7 @@ namespace PoolDays.Controllers
             var isEdited = this.pools.Edit(id, pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
                 pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
 
-            if (!isEdited && !User.isAdmin())
+            if (!User.isAdmin())
             {
                 return BadRequest();
             }

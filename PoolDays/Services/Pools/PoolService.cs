@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static PoolDays.Infrastructure.ClaimsPrincipalExtensions;
 
 namespace PoolDays.Services.Pools
 {
@@ -95,6 +96,7 @@ namespace PoolDays.Services.Pools
                 Stairway = p.Stairway,
                 ImageUrl = p.ImageUrl,
                 Category = p.Category.Name,
+                CategoryId = p.CategoryId,
                 EmployeeId = p.EmployeeId,
             })
             .FirstOrDefault();
@@ -153,11 +155,6 @@ namespace PoolDays.Services.Pools
             int employeeId)
         {
             var poolData = this.data.Pools.Find(id);
-
-            if (poolData.EmployeeId != employeeId)
-            {
-                return false;
-            }
 
             poolData.Manufacturer = manufacturer;
             poolData.Model = model;

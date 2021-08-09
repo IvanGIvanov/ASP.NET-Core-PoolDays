@@ -132,7 +132,7 @@ namespace PoolDays.Controllers
                 jacuzzi.Volume, jacuzzi.Length, jacuzzi.Height, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl,
                 jacuzzi.CategoryId, employeeId);
 
-            if (!isEdited && !User.isAdmin())
+            if (!User.isAdmin())
             {
                 return BadRequest();
             }

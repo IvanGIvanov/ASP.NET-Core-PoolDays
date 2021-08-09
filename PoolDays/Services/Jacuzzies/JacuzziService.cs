@@ -129,11 +129,6 @@ namespace PoolDays.Services.Jacuzzies
         {
             var jacuzziData = this.data.Jacuzzies.Find(id);
 
-            if (jacuzziData.EmployeeId != employeeId)
-            {
-                return false;
-            }
-
             jacuzziData.Manufacturer = manufacturer;
             jacuzziData.Model = model;
             jacuzziData.Description = description;
