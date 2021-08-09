@@ -42,6 +42,8 @@ namespace PoolDays
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PoolDaysDBContext>();
+
+            services.AddAutoMapper(typeof(Startup));
             
             services.AddControllersWithViews(options => 
                 options.

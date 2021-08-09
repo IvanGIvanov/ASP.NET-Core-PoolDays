@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
@@ -19,13 +20,15 @@ namespace PoolDays.Controllers
     {
         private readonly IEmployeeService employee;
         private readonly IPoolService pools;
+        private readonly IMapper mapper;
 
-        public PoolsController(IEmployeeService employee, IPoolService pools)
+        public PoolsController(IEmployeeService employee, IPoolService pools, IMapper mapper)
         {
             this.employee = employee;
             this.pools = pools;
+            this.mapper = mapper;
         }
-            
+
 
         [Authorize]
         public IActionResult Add()
@@ -105,21 +108,10 @@ namespace PoolDays.Controllers
                 return Unauthorized();
             }
 
-            return View(new PoolFormModel
-            {
-                Manufacturer = pool.Manufacturer,
-                Model = pool.Model,
-                Description = pool.Description,
-                Volume = pool.Volume,
-                Height = pool.Height,
-                Length = pool.Length,
-                Width = pool.Width,
-                PumpIncluded = pool.PumpIncluded,
-                Stairway = pool.Stairway,
-                ImageUrl = pool.ImageUrl,
-                CategoryId = pool.CategoryId,
-                Categories = this.pools.AllPoolCategories()
-            });
+            var poolForm = this.mapper.Map<PoolFormModel>(pool);
+            poolForm.Categories = this.pools.AllPoolCategories();
+
+            return View(poolForm);
         }
 
         [HttpPost]
