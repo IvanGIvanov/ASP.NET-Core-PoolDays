@@ -91,6 +91,7 @@ namespace PoolDays.Services.Pools
         public IEnumerable<PoolCategoryServiceModel> AllPoolCategories()
             => this.data
                 .Categories
+                .Where(c => c.Type == 1)
                 .Select(p => new PoolCategoryServiceModel
                 {
                     Id = p.Id,

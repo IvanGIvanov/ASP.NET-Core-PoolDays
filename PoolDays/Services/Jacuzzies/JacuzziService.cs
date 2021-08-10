@@ -83,6 +83,7 @@ namespace PoolDays.Services.Jacuzzies
         public IEnumerable<JacuzziCategoryServiceModel> AllJacuzziCategories()
             => this.data
                 .Categories
+                .Where(c => c.Type == 2)
                 .Select(j => new JacuzziCategoryServiceModel
                 {
                     Id = j.Id,

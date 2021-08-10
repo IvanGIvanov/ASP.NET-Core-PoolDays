@@ -46,13 +46,13 @@ namespace PoolDays.Infrastructure
 
             data.Categories.AddRange(new[]
             {
-                new Category { Name = "Oval"},
-                new Category { Name = "Circle"},
-                new Category { Name = "Rectange"},
-                new Category { Name = "Eight"},
-                new Category { Name = "Square"},
-                new Category { Name = "Indoor"},
-                new Category { Name = "Outdoor"},
+                new Category { Name = "Oval", Type = 1},
+                new Category { Name = "Circle", Type = 1},
+                new Category { Name = "Rectange", Type = 1},
+                new Category { Name = "Eight", Type = 1},
+                new Category { Name = "Square", Type = 1},
+                new Category { Name = "Indoor", Type = 2},
+                new Category { Name = "Outdoor", Type = 2},
             });
 
             data.SaveChanges();

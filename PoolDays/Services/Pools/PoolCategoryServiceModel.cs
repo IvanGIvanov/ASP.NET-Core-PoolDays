@@ -10,5 +10,7 @@ namespace PoolDays.Models.Pools
         public int Id { get; init; }
 
         public string Name { get; init; }
+
+        public int Type { get; set; }
     }
 }

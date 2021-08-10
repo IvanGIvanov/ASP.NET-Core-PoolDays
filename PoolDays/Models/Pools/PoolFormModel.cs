@@ -14,17 +14,21 @@ namespace PoolDays.Models.Pools
         [StringLength(
             PoolManufacturerMaxLength, 
             MinimumLength = PoolManufacturerMinLength, 
-            ErrorMessage = "Values must be between {2} and {1} characters.")]       // TODO: For all other fields.. 
+            ErrorMessage = "Values must be between {2} and {1} characters.")]
         public string Manufacturer { get; init; }
 
         [Required]
-        [MinLength(PoolModelMinLength)]
-        [MaxLength(PoolModelMaxLength)]
+        [StringLength(
+            PoolModelMaxLength,
+            MinimumLength = PoolModelMinLength,
+            ErrorMessage = "Values must be between {2} and {1} characters.")]
         public string Model { get; init; }
 
         [Required]
-        [MinLength(PoolDescriptionMinLength)]
-        [MaxLength(PoolDescriptionMaxLength)]
+        [StringLength(
+            PoolDescriptionMaxLength,
+            MinimumLength = PoolDescriptionMinLength,
+            ErrorMessage = "Values must be between {2} and {1} characters.")]
         public string Description { get; init; }
 
         [Range(PoolVolumeMinValue, PoolVolumeMaxValue)]
@@ -39,6 +43,8 @@ namespace PoolDays.Models.Pools
         [Range(PoolWidthtMinValue, PoolWidthMaxValue)]
         public double Width { get; init; }
 
+        public decimal Price { get; set; }
+
         public double? Diameter { get; init; }
 
         public bool PumpIncluded { get; init; }
@@ -46,11 +52,11 @@ namespace PoolDays.Models.Pools
         public bool Stairway { get; init; }
 
         [Required]
-        [Display(Name = "Image URL")]
-        [MinLength(ImageURLStringMinLength)]
+        [Url]
+        [Display(Name = "Image URL:")]
+        [MinLength(ImageURLStringMinLength, ErrorMessage = "Enter valid URL")]
         public string ImageUrl { get; init; }
 
-        [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 

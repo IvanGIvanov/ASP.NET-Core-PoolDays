@@ -23,6 +23,8 @@ namespace PoolDays.Services.Pools
 
         public double Width { get; set; }
 
+        public decimal Price { get; set; }
+
         public bool PumpIncluded { get; set; }
 
         public bool Stairway { get; set; }

@@ -10,30 +10,46 @@ namespace PoolDays.Models.Jacuzzies
 
     public class JacuzziFormModel
     {    
+        [Required]
+        [StringLength(
+            JacuzziManufacturerMaxLength,
+            MinimumLength = JacuzziManufacturerMinLength,
+            ErrorMessage = "Values must be between {2} and {1} characters.")]
         public string Manufacturer { get; set; }
 
         [Required]
-        [MaxLength(JacuzziModelMaxLength)]
+        [StringLength(
+            JacuzziModelMaxLength,
+            MinimumLength = JacuzziModelMinLength,
+            ErrorMessage = "Values must be between {2} and {1} characters.")]
         public string Model { get; set; }
 
         [Required]
-        [MaxLength(JacuzziDescriptionMaxLength)]
+        [StringLength(
+            JacuzziDescriptionMaxLength,
+            MinimumLength = JacuzziDescriptionMinLength,
+            ErrorMessage = "Values must be between {2} and {1} characters.")]
         public string Description { get; set; }
 
-        [Range(1, 199)]
+        [Range(JacuzziVolumeMinValue, JacuzziVolumeMaxValue)]
         public double Volume { get; set; }
 
+        [Range(JacuzziHeightMinValue, JacuzziHeightMaxValue)]
         public double Height { get; set; }
 
+        [Range(JacuzziLengthMinValue, JacuzziLengthMaxValue)]
         public double Length { get; set; }
 
+        [Range(JacuzziWidthtMinValue, JacuzziWidthMaxValue)]
         public double Width { get; set; }
 
+        [Range(JacuzziPriceMinValue, JacuzziPriceMaxValue)]
         public decimal Price { get; set; }
 
         [Required]
+        [Url]
         [Display(Name = "Image URL")]
-        [MinLength(ImageURLStringMinLength)]
+        [MinLength(ImageURLStringMinLength, ErrorMessage = "Enter valid URL")]
         public string ImageUrl { get; set; }
 
         [Required]
