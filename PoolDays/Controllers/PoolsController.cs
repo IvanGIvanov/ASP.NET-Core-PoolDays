@@ -29,21 +29,6 @@ namespace PoolDays.Controllers
             this.mapper = mapper;
         }
 
-
-        [Authorize]
-        public IActionResult Add()
-        {
-            if (!this.employee.UserIsEmployee(this.User.GetId()))
-            {               
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
-            }
-
-            return View(new PoolFormModel
-            {
-                Categories = this.pools.AllPoolCategories()
-            });
-        }
-
         public IActionResult All([FromQuery]AllPoolsSearchQueryModel query)
         {
             var queryResult = this.pools.All(
@@ -60,6 +45,54 @@ namespace PoolDays.Controllers
             query.Pools = queryResult.Pools;
 
             return View(query);
+        }
+
+        [Authorize]
+        public IActionResult Add()
+        {
+            if (!this.employee.UserIsEmployee(this.User.GetId()))
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            return View(new PoolFormModel
+            {
+                Categories = this.pools.AllPoolCategories()
+            });
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var employeeId = employee.EmployeeId(this.User.GetId());
+
+            if (employeeId == 0 && !User.isAdmin())
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            var pool = this.pools.Details(id);
+
+            if (pool.EmployeeId != employeeId && !User.isAdmin())
+            {
+                return Unauthorized();
+            }
+
+            var poolForm = this.mapper.Map<PoolFormModel>(pool);
+            poolForm.Categories = this.pools.AllPoolCategories();
+
+            return View(poolForm);
+        }
+
+        [Authorize]
+        public IActionResult Details(int id)
+        {
+            var pool = this.pools
+                 .Details(id);
+
+            var poolDetails = this.mapper.Map<PoolFormModel>(pool);
+            
+            return View(poolDetails);
         }
 
         [HttpPost]
@@ -89,29 +122,6 @@ namespace PoolDays.Controllers
                 pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
 
             return RedirectToAction(nameof(All));
-        }
-
-        [Authorize]
-        public IActionResult Edit(int id)
-        {
-            var employeeId = employee.EmployeeId(this.User.GetId());
-
-            if (employeeId == 0 && !User.isAdmin())
-            {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
-            }
-
-            var pool = this.pools.Details(id);
-
-            if (pool.EmployeeId != employeeId && !User.isAdmin())
-            {
-                return Unauthorized();
-            }
-
-            var poolForm = this.mapper.Map<PoolFormModel>(pool);
-            poolForm.Categories = this.pools.AllPoolCategories();
-
-            return View(poolForm);
         }
 
         [HttpPost]

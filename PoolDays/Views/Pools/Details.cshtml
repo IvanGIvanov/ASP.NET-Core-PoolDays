@@ -1,0 +1,70 @@
+﻿@model PoolFormModel
+
+    <form>
+        <div>
+            <img src="@Model.ImageUrl" alt="Pool Image" />
+        </div>
+    </form>
+    <form>
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3">Manufacturer</dt>
+                <dd class="col-sm-6">@Model.Manufacturer</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Model</dt>
+                <dd class="col-sm-6">@Model.Model</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-6">@Model.Description</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Volume</dt>
+                <dd class="col-sm-6">@Model.Volume</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Height</dt>
+                <dd class="col-sm-6">@Model.Height sm</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Length</dt>
+                <dd class="col-sm-6">@Model.Length sm</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Width</dt>
+                <dd class="col-sm-6">@Model.Width sm</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Price</dt>
+                <dd class="col-sm-6">@Model.Price LV</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">PumpIncluded</dt>
+                @{
+                    @if (Model.PumpIncluded == false)
+                    {
+                        <dd class="col-sm-6">No</dd>
+                    }
+                    @if(Model.PumpIncluded == true)
+                    {
+                        <dd class="col-sm-6">Yes</dd>
+                    }
+                }
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Stairway Included</dt>
+                @{
+                    @if (Model.Stairway == false)
+                    {
+                        <dd class="col-sm-6">No</dd>
+                    }
+                    @if (Model.Stairway == true)
+                    {
+                        <dd class="col-sm-6">Yes</dd>
+                    }
+                }
+            </dl>
+        </div>
+    </form>    
+        
