@@ -84,7 +84,7 @@ namespace PoolDays.Controllers
             return View(poolForm);
         }
 
-        [Authorize]
+        
         public IActionResult Details(int id)
         {
             var pool = this.pools

@@ -27,19 +27,7 @@ namespace PoolDays.Controllers
             this.mapper = mapper;
         }
 
-        public IActionResult Add()
-        {
-            if (!this.employee.UserIsEmployee(this.User.GetId()))
-            {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
-            }
-
-            return View(new JacuzziFormModel
-            {
-                Categories = this.jacuzzies.AllJacuzziCategories()
-            });
-        }
-
+       
         public IActionResult All([FromQuery] AllJacuzzieSearchQueryModel query)
         {
             var queryResult = this.jacuzzies.All(
@@ -56,6 +44,52 @@ namespace PoolDays.Controllers
             query.Jacuzzies = queryResult.Jacuzzies;
 
             return View(query);
+        }
+
+        public IActionResult Add()
+        {
+            if (!this.employee.UserIsEmployee(this.User.GetId()))
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            return View(new JacuzziFormModel
+            {
+                Categories = this.jacuzzies.AllJacuzziCategories()
+            });
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var employeeId = employee.EmployeeId(this.User.GetId());
+
+            if (employeeId == 0 && !User.isAdmin())
+            {
+                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+            }
+
+            var jacuzzi = this.jacuzzies.Details(id);
+
+            if (jacuzzi.EmployeeId != employeeId && !User.isAdmin())
+            {
+                return Unauthorized();
+            }
+
+            var jacuzziForm = mapper.Map<JacuzziFormModel>(jacuzzi);
+            jacuzziForm.Categories = this.jacuzzies.AllJacuzziCategories();
+
+            return View(jacuzziForm);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var jacuzzi = this.jacuzzies
+                 .Details(id);
+
+            var jacuzziDetails = this.mapper.Map<JacuzziFormModel>(jacuzzi);
+
+            return View(jacuzziDetails);
         }
 
         [HttpPost]
@@ -85,29 +119,6 @@ namespace PoolDays.Controllers
             jacuzzi.Length, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl, jacuzzi.CategoryId, employeeId);
 
             return RedirectToAction(nameof(All));
-        }
-
-        [Authorize]
-        public IActionResult Edit(int id)
-        {
-            var employeeId = employee.EmployeeId(this.User.GetId());
-
-            if (employeeId == 0 && !User.isAdmin())
-            {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
-            }
-
-            var jacuzzi = this.jacuzzies.Details(id);
-
-            if (jacuzzi.EmployeeId != employeeId && !User.isAdmin())
-            {
-                return Unauthorized();
-            }
-
-            var jacuzziForm = mapper.Map<JacuzziFormModel>(jacuzzi);
-            jacuzziForm.Categories = this.jacuzzies.AllJacuzziCategories();
-
-            return View(jacuzziForm);
         }
 
         [HttpPost]
