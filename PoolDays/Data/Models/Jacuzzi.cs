@@ -44,5 +44,9 @@ namespace PoolDays.Data.Models
         public int EmployeeId { get; init; }
 
         public Employee Employee { get; init; }
+
+        public int CommentId { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }

@@ -79,5 +79,11 @@ namespace PoolDays.Data
 
             public const int ImageURLStringMinLength = 15;
         }
+
+        public class Comment
+        {
+            public const int CommentMinLength = 2;
+            public const int CommentMaxLength = 3000;
+        }
     }
 }

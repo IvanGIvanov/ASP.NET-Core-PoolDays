@@ -14,34 +14,34 @@ using System.Threading.Tasks;
 
 namespace PoolDays.Controllers
 {
-    public class JacuzziesController : Controller
+    public class JacuzzisController : Controller
     {
         private readonly IEmployeeService employee;
-        private readonly IJacuzziService jacuzzies;
+        private readonly IJacuzziService jacuzzis;
         private readonly IMapper mapper;
 
-        public JacuzziesController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data, IMapper mapper)
+        public JacuzzisController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data, IMapper mapper)
         {
             this.employee = employee;
-            this.jacuzzies = jacuzzies;
+            this.jacuzzis = jacuzzies;
             this.mapper = mapper;
         }
 
        
-        public IActionResult All([FromQuery] AllJacuzzieSearchQueryModel query)
+        public IActionResult All([FromQuery] AllJacuzziSearchQueryModel query)
         {
-            var queryResult = this.jacuzzies.All(
+            var queryResult = this.jacuzzis.All(
                 query.Manufacturer,
                 query.SearchTerm,
                 query.Sorting,
                 query.CurrentPage,
-                AllJacuzzieSearchQueryModel.JacuzziPerPage);
+                AllJacuzziSearchQueryModel.JacuzziPerPage);
 
-            var jacuzzieManufacturers = this.jacuzzies.AllJacuzziManufacturers();
+            var jacuzziManufacturers = this.jacuzzis.AllJacuzziManufacturers();
 
-            query.TotalJacuzzi = queryResult.TotalJacuzzies;
-            query.Manufacturers = jacuzzieManufacturers;
-            query.Jacuzzies = queryResult.Jacuzzies;
+            query.TotalJacuzzi = queryResult.TotalJacuzzis;
+            query.Manufacturers = jacuzziManufacturers;
+            query.Jacuzzis = queryResult.Jacuzzis;
 
             return View(query);
         }
@@ -55,7 +55,7 @@ namespace PoolDays.Controllers
 
             return View(new JacuzziFormModel
             {
-                Categories = this.jacuzzies.AllJacuzziCategories()
+                Categories = this.jacuzzis.AllJacuzziCategories()
             });
         }
 
@@ -69,7 +69,7 @@ namespace PoolDays.Controllers
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
-            var jacuzzi = this.jacuzzies.Details(id);
+            var jacuzzi = this.jacuzzis.Details(id);
 
             if (jacuzzi.EmployeeId != employeeId && !User.isAdmin())
             {
@@ -77,14 +77,14 @@ namespace PoolDays.Controllers
             }
 
             var jacuzziForm = mapper.Map<JacuzziFormModel>(jacuzzi);
-            jacuzziForm.Categories = this.jacuzzies.AllJacuzziCategories();
+            jacuzziForm.Categories = this.jacuzzis.AllJacuzziCategories();
 
             return View(jacuzziForm);
         }
 
         public IActionResult Details(int id)
         {
-            var jacuzzi = this.jacuzzies
+            var jacuzzi = this.jacuzzis
                  .Details(id);
 
             var jacuzziDetails = this.mapper.Map<JacuzziFormModel>(jacuzzi);
@@ -103,19 +103,19 @@ namespace PoolDays.Controllers
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
-            if (!jacuzzies.CategoryExists(jacuzzi.CategoryId))
+            if (!jacuzzis.CategoryExists(jacuzzi.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(jacuzzi.CategoryId), "Category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
-                jacuzzi.Categories = this.jacuzzies.AllJacuzziCategories();
+                jacuzzi.Categories = this.jacuzzis.AllJacuzziCategories();
 
                 return View(jacuzzi);
             }
 
-            this.jacuzzies.Create(jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, jacuzzi.Volume, jacuzzi.Height,
+            this.jacuzzis.Create(jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, jacuzzi.Volume, jacuzzi.Height,
             jacuzzi.Length, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl, jacuzzi.CategoryId, employeeId);
 
             return RedirectToAction(nameof(All));
@@ -132,7 +132,7 @@ namespace PoolDays.Controllers
                 return RedirectToAction(nameof(EmployeesController.Create), "Employees");
             }
 
-            var isEdited = this.jacuzzies.Edit(id, jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, 
+            var isEdited = this.jacuzzis.Edit(id, jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, 
                 jacuzzi.Volume, jacuzzi.Length, jacuzzi.Height, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl,
                 jacuzzi.CategoryId, employeeId);
 

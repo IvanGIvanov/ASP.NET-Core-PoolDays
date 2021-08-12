@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
@@ -50,6 +51,7 @@ namespace PoolDays.Controllers
                 UserId = userId
             };
 
+            
             this.data.Employees.Add(employeeModel);
             this.data.SaveChanges();
 

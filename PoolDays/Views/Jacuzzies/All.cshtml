@@ -1,4 +1,4 @@
-﻿@model AllJacuzzieSearchQueryModel
+﻿@model AllJacuzziSearchQueryModel
 
 @{ ViewData["Title"] = "All jacuzzies - "; }
 
@@ -38,13 +38,13 @@
     </div>
 </form>
 
-@if (!Model.Jacuzzies.Any())
+@if (!Model.Jacuzzis.Any())
 {
 <h2 class="text-center">No jacuzzi found!</h2>
 }
 
 <div class="row">
-    @foreach (var jacuzzi in Model.Jacuzzies)
+    @foreach (var jacuzzi in Model.Jacuzzis)
     {
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
@@ -53,7 +53,6 @@
                     <h5 class="card-title">@jacuzzi.Manufacturer @jacuzzi.Model</h5>
                     <p class="card-text">@jacuzzi.Description</p>
                     <a asp-controller="Jacuzzies" asp-action="Details" asp-route-id="@jacuzzi.Id" class="btn btn-primary">Details</a>
-                    <a asp-controller="Jacuzzies" asp-action="Edit" asp-route-id="@jacuzzi.Id" class="btn btn-info">Edit</a>
                 </div>
             </div>
         </div>
@@ -67,7 +66,7 @@
         previousPage = 1;
     }
 
-    var maxPage = Math.Round((double)Model.TotalJacuzzi / AllJacuzzieSearchQueryModel.JacuzziPerPage);
+    var maxPage = Math.Round((double)Model.TotalJacuzzi / AllJacuzziSearchQueryModel.JacuzziPerPage);
     if (AllPoolsSearchQueryModel.PoolsPerPage > Model.TotalJacuzzi)
     {
         maxPage = 1;

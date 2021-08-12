@@ -9,10 +9,10 @@ namespace PoolDays.Services.Jacuzzies
     {
         public int CurrentPage { get; set; }
 
-        public int TotalJacuzzies { get; init; }
+        public int TotalJacuzzis { get; init; }
 
         public int JacuzziPerPage { get; init; }
 
-        public IEnumerable<JacuzziServiceModel> Jacuzzies { get; set; }
+        public IEnumerable<JacuzziServiceModel> Jacuzzis { get; set; }
     }
 }

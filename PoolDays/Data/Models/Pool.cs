@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace PoolDays.Data.Models
@@ -48,6 +49,10 @@ namespace PoolDays.Data.Models
         public int EmployeeId { get; set; }
 
         public Employee Employee { get; init; }
+
+        public int CommentId { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
 
     }
 }

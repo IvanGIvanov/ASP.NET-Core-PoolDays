@@ -30,7 +30,7 @@ namespace PoolDays.Services.Jacuzzies
             int currentPage,
             int jaccuziPerPage)
         {
-            var jacuzzieQueriable = this.data.Jacuzzies.AsQueryable();
+            var jacuzzieQueriable = this.data.Jacuzzis.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(manufacturer))
             {
@@ -63,17 +63,17 @@ namespace PoolDays.Services.Jacuzzies
 
             return new JacuzziQueryServiceModel
             {
-                TotalJacuzzies = totalJacuzzies,
+                TotalJacuzzis = totalJacuzzies,
                 CurrentPage = currentPage,
                 JacuzziPerPage = jaccuziPerPage,
-                Jacuzzies = jacuzzies,
+                Jacuzzis = jacuzzies,
             };
         }
 
         public IEnumerable<string> AllJacuzziManufacturers()
         {
             return this.data
-                .Jacuzzies
+                .Jacuzzis
                 .Select(p => p.Manufacturer)
                 .Distinct()
                 .OrderBy(p => p)
@@ -122,7 +122,7 @@ namespace PoolDays.Services.Jacuzzies
             double length, double height, double width, decimal price, string imageUrl, 
             int categoryId, int employeeId)
         {
-            var jacuzziData = this.data.Jacuzzies.Find(id);
+            var jacuzziData = this.data.Jacuzzis.Find(id);
 
             jacuzziData.Manufacturer = manufacturer;
             jacuzziData.Model = model;
@@ -142,7 +142,7 @@ namespace PoolDays.Services.Jacuzzies
 
         public JacuzziServiceModel Details(int id)
           => this.data
-            .Jacuzzies
+            .Jacuzzis
             .Where(j => j.Id == id)
             .ProjectTo<JacuzziServiceModel>(this.mapper.ConfigurationProvider)
             .FirstOrDefault();

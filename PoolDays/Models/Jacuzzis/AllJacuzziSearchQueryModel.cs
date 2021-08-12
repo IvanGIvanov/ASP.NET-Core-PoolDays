@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PoolDays.Models.Jacuzzies
 {
-    public class AllJacuzzieSearchQueryModel
+    public class AllJacuzziSearchQueryModel
     {
         public const int JacuzziPerPage = 3;
 
@@ -26,6 +26,6 @@ namespace PoolDays.Models.Jacuzzies
 
         public int TotalJacuzzi { get; set; }
 
-        public IEnumerable<JacuzziServiceModel> Jacuzzies { get; set; }
+        public IEnumerable<JacuzziServiceModel> Jacuzzis { get; set; }
     }
 }
