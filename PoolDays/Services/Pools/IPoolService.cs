@@ -17,11 +17,11 @@ namespace PoolDays.Services.Pools
             int currentPage,
             int poolsPerPage);
 
-        int Create(string manufacturer, string model, string description, double volume, double length,
+        public int Create(string manufacturer, string model, string description, double volume, double length,
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
             int employeeId);
 
-        bool Edit(int id, string manufacturer, string model, string description, double volume, double length,
+        public bool Edit(int id, string manufacturer, string model, string description, double volume, double length,
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
             int employeeId);
 

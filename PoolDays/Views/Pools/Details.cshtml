@@ -46,7 +46,7 @@
                     {
                         <dd class="col-sm-6">No</dd>
                     }
-                    @if(Model.PumpIncluded == true)
+                    @if (Model.PumpIncluded == true)
                     {
                         <dd class="col-sm-6">Yes</dd>
                     }
@@ -64,7 +64,11 @@
                         <dd class="col-sm-6">Yes</dd>
                     }
                 }
-            </dl>
+            </dl>  
+            <label class="text-info">Only one comment allowed</label>
+            <div>
+                <a asp-controller="Pools" asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-primary">Add to comment</a>
+            </div>
         </div>
     </form>    
         

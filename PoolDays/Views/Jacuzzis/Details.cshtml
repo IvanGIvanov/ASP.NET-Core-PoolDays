@@ -39,7 +39,10 @@
                 <dt class="col-sm-3">Price</dt>
                 <dd class="col-sm-6">@Model.Price LV</dd>
             </dl>
-            
+            <label class="text-info">Only one comment allowed</label>
+            <div>
+                <a asp-controller="Jacuzzis" asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-primary">Add to comment</a>
+            </div>
         </div>
     </form>    
         

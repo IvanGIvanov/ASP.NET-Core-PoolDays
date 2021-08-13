@@ -13,7 +13,7 @@ namespace PoolDays.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(CommentMinLength, MinimumLength = CommentMaxLength)]
+        [StringLength(CommentMaxLength, MinimumLength = CommentMinLength)]
         public string Text { get; set; }
 
         public string UserId { get; set; }
@@ -21,7 +21,11 @@ namespace PoolDays.Data.Models
         [Required]
         public int ProductRankting { get; set; }
 
+        public int? PoolId { get; set; }
+
         public IEnumerable<Pool> Pools { get; set; }
+
+        public int? JacuzziId { get; set; }
 
         public IEnumerable<Jacuzzi> Jacuzzis { get; set; }
     }

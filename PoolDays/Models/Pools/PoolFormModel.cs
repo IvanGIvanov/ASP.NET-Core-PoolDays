@@ -10,6 +10,8 @@ namespace PoolDays.Models.Pools
 {
     public class PoolFormModel
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(
             PoolManufacturerMaxLength, 

@@ -5,7 +5,9 @@ using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Models;
+using PoolDays.Models.Comments;
 using PoolDays.Models.Pools;
+using PoolDays.Services.Comments;
 using PoolDays.Services.Employees;
 using PoolDays.Services.Pools;
 using System;
@@ -21,12 +23,14 @@ namespace PoolDays.Controllers
         private readonly IEmployeeService employee;
         private readonly IPoolService pools;
         private readonly IMapper mapper;
+        private readonly ICommentService comments;
 
-        public PoolsController(IEmployeeService employee, IPoolService pools, IMapper mapper)
+        public PoolsController(IEmployeeService employee, IPoolService pools, IMapper mapper, ICommentService comments)
         {
             this.employee = employee;
             this.pools = pools;
             this.mapper = mapper;
+            this.comments = comments;
         }
 
         public IActionResult All([FromQuery]AllPoolsSearchQueryModel query)
@@ -91,7 +95,9 @@ namespace PoolDays.Controllers
                  .Details(id);
 
             var poolDetails = this.mapper.Map<PoolFormModel>(pool);
-            
+
+            ViewBag.PoolId = id;
+
             return View(poolDetails);
         }
 
@@ -144,6 +150,23 @@ namespace PoolDays.Controllers
             }
 
             return RedirectToAction(nameof(All));
+        }
+
+        [Authorize]
+        public IActionResult AddComment()
+        { 
+            return View(new CommentFormModel());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddComment(int id, CommentFormModel comment)
+        {
+            var userId = User.GetId();
+
+            this.comments.Create(comment.Text, comment.ProductRankting, id, comment.JacuzziId, userId);
+
+            return RedirectToAction(nameof(Details));
         }
     }
 }

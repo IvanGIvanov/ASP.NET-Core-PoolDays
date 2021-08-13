@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
+using PoolDays.Models.Comments;
 using PoolDays.Models.Jacuzzies;
+using PoolDays.Services.Comments;
 using PoolDays.Services.Employees;
 using PoolDays.Services.Jacuzzies;
 using System;
@@ -19,12 +21,15 @@ namespace PoolDays.Controllers
         private readonly IEmployeeService employee;
         private readonly IJacuzziService jacuzzis;
         private readonly IMapper mapper;
+        private readonly ICommentService comments;
 
-        public JacuzzisController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data, IMapper mapper)
+        public JacuzzisController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data, 
+            IMapper mapper, ICommentService comments)
         {
             this.employee = employee;
             this.jacuzzis = jacuzzies;
             this.mapper = mapper;
+            this.comments = comments;
         }
 
        
@@ -142,6 +147,23 @@ namespace PoolDays.Controllers
             }
 
             return RedirectToAction(nameof(All));
+        }
+
+        [Authorize]
+        public IActionResult AddComment()
+        {
+            return View(new CommentFormModel());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddComment(int id, CommentFormModel comment)
+        {
+            var userId = User.GetId();
+
+            this.comments.Create(comment.Text, comment.ProductRankting, comment.PoolId, id, userId);
+
+            return RedirectToAction(nameof(Details));
         }
     }
 }

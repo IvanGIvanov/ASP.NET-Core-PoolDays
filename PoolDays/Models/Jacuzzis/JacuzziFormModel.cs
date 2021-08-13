@@ -9,7 +9,9 @@ namespace PoolDays.Models.Jacuzzies
     using static Data.DataConstants.Jacuzzi;
 
     public class JacuzziFormModel
-    {    
+    {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(
             JacuzziManufacturerMaxLength,

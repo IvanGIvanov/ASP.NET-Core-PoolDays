@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Views\Comments\" />
   </ItemGroup>
 
 </Project>
