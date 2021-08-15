@@ -55,7 +55,7 @@ namespace PoolDays.Controllers
         {
             if (!this.employee.UserIsEmployee(this.User.GetId()))
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             return View(new JacuzziFormModel
@@ -71,7 +71,7 @@ namespace PoolDays.Controllers
 
             if (employeeId == 0 && !User.isAdmin())
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             var jacuzzi = this.jacuzzis.Details(id);
@@ -105,7 +105,7 @@ namespace PoolDays.Controllers
 
             if (employeeId == 0)
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             if (!jacuzzis.CategoryExists(jacuzzi.CategoryId))
@@ -134,7 +134,7 @@ namespace PoolDays.Controllers
 
             if (employeeId == 0 && !User.isAdmin())
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             var isEdited = this.jacuzzis.Edit(id, jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, 

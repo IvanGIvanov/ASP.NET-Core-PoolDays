@@ -56,7 +56,7 @@ namespace PoolDays.Controllers
         {
             if (!this.employee.UserIsEmployee(this.User.GetId()))
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             return View(new PoolFormModel
@@ -72,7 +72,7 @@ namespace PoolDays.Controllers
 
             if (employeeId == 0 && !User.isAdmin())
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             var pool = this.pools.Details(id);
@@ -89,14 +89,12 @@ namespace PoolDays.Controllers
         }
 
         
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, ICommentService comments)
         {
             var pool = this.pools
                  .Details(id);
 
             var poolDetails = this.mapper.Map<PoolFormModel>(pool);
-
-            ViewBag.PoolId = id;
 
             return View(poolDetails);
         }
@@ -109,7 +107,7 @@ namespace PoolDays.Controllers
 
             if (employeeId == 0)
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             if (!pools.CategoryExists(pool.CategoryId))
@@ -138,7 +136,7 @@ namespace PoolDays.Controllers
 
             if (employeeId == 0 && !User.isAdmin())
             {
-                return RedirectToAction(nameof(EmployeesController.Create), "Employees");
+                return RedirectToAction(nameof(UsersController.Create), "Employees");
             }
 
             var isEdited = this.pools.Edit(id, pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
@@ -163,10 +161,11 @@ namespace PoolDays.Controllers
         public IActionResult AddComment(int id, CommentFormModel comment)
         {
             var userId = User.GetId();
+            var poolId = id;
 
             this.comments.Create(comment.Text, comment.ProductRankting, id, comment.JacuzziId, userId);
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(All));
         }
     }
 }

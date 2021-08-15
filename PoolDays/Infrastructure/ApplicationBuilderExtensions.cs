@@ -71,27 +71,38 @@ namespace PoolDays.Infrastructure
                         return;
                     }
 
-                    var role = new IdentityRole { Name = AdministatorRoleName };
+                    var adminRole = new IdentityRole { Name = AdministatorRoleName };
+                    var employeeRole = new IdentityRole { Name = EmployeeRoleName };
+                    var buyerRole = new IdentityRole { Name = BuyerRoleName };
 
-                    await roleManager.CreateAsync(role);
+                    await roleManager.CreateAsync(adminRole);
+                    await roleManager.CreateAsync(employeeRole);
+                    await roleManager.CreateAsync(buyerRole);
 
-                    const string adminEmail = "admin@mail.bg";
-                    const string firstName = "Admin";
-                    const string lastName = "Admin";
                     const string adminPassword = "123123";
 
 
-                    var user = new User
+                    var adminUser = new User
                     {
-                        Email = adminEmail,
-                        UserName = adminEmail,
-                        FirstName = firstName,
-                        LastName = lastName,
+                        Email = "admin@mail.bg",
+                        UserName = "admin@mail.bg",
+                        FirstName = "Admin",
+                        LastName = "Admin",
                     };
 
-                    await userManager.CreateAsync(user, adminPassword);
+                    var employeeUser = new User
+                    {
+                        Email = "employee@mail.bg",
+                        UserName = "employee@mail.bg",
+                        FirstName = "Employee",
+                        LastName = "Employee",
+                    };
 
-                    await userManager.AddToRoleAsync(user, role.Name);
+                    await userManager.CreateAsync(adminUser, adminPassword);
+                    await userManager.AddToRoleAsync(adminUser, adminRole.Name);
+
+                    await userManager.CreateAsync(employeeUser, adminPassword);
+                    await userManager.AddToRoleAsync(employeeUser, employeeRole.Name);
                 })
                 .GetAwaiter()
                 .GetResult();

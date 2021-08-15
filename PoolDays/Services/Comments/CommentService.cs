@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
+using PoolDays.Services.Comments.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,11 @@ namespace PoolDays.Services.Comments
             this.data.SaveChanges();
 
             return commentData.Id;
+        }
+
+        public IEnumerable<CommentShowModel> ShowComment()
+        {
+            return null;
         }
     }
 }
