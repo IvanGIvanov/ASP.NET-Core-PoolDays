@@ -10,7 +10,6 @@ using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Services.Comments;
-using PoolDays.Services.Employees;
 using PoolDays.Services.Jacuzzies;
 using PoolDays.Services.Pools;
 using PoolDays.Services.Statistics;
@@ -54,7 +53,6 @@ namespace PoolDays
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IPoolService, PoolService>();
             services.AddTransient<IJacuzziService, JacuzziService>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<ICommentService, CommentService>();
         }
 

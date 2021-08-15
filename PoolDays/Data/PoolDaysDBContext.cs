@@ -19,8 +19,6 @@ namespace PoolDays.Data
 
         public DbSet<Category> Categories { get; init; }
 
-        public DbSet<Employee> Employees { get; init; }
-
         public DbSet<Jacuzzi> Jacuzzis { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
@@ -32,27 +30,6 @@ namespace PoolDays.Data
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Pools)
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Pool>()
-                .HasOne(p => p.Employee)
-                .WithMany(e => e.Pools)
-                .HasForeignKey(p => p.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Employee>()
-                .HasOne<User>()
-                .WithOne()
-                .HasForeignKey<Employee>(e => e.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Jacuzzi>()
-                .HasOne(j => j.Employee)
-                .WithMany(e => e.Jacuzzis)
-                .HasForeignKey(j => j.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

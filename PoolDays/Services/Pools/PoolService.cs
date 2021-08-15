@@ -104,7 +104,7 @@ namespace PoolDays.Services.Pools
 
         public int Create(string manufacturer, string model, string description, double volume, double length, 
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId, 
-            int employeeId)
+            string employeeId)
         {
             var poolData = new Pool
             {
@@ -130,7 +130,7 @@ namespace PoolDays.Services.Pools
 
         public bool Edit(int id, string manufacturer, string model, string description, double volume, double length, 
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId, 
-            int employeeId)
+            string employeeId)
         {
             var poolData = this.data.Pools.Find(id);
 

@@ -19,11 +19,11 @@ namespace PoolDays.Services.Pools
 
         public int Create(string manufacturer, string model, string description, double volume, double length,
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
-            int employeeId);
+            string employeeId);
 
         public bool Edit(int id, string manufacturer, string model, string description, double volume, double length,
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId,
-            int employeeId);
+            string employeeId);
 
         PoolServiceModel Details(int id);
 

@@ -7,7 +7,6 @@ using PoolDays.Infrastructure;
 using PoolDays.Models.Comments;
 using PoolDays.Models.Jacuzzies;
 using PoolDays.Services.Comments;
-using PoolDays.Services.Employees;
 using PoolDays.Services.Jacuzzies;
 using System;
 using System.Collections.Generic;
@@ -16,17 +15,17 @@ using System.Threading.Tasks;
 
 namespace PoolDays.Controllers
 {
+    using static WebConstants;
+
     public class JacuzzisController : Controller
     {
-        private readonly IEmployeeService employee;
         private readonly IJacuzziService jacuzzis;
         private readonly IMapper mapper;
         private readonly ICommentService comments;
 
-        public JacuzzisController(IEmployeeService employee, IJacuzziService jacuzzies, PoolDaysDBContext data, 
+        public JacuzzisController(IJacuzziService jacuzzies, PoolDaysDBContext data, 
             IMapper mapper, ICommentService comments)
         {
-            this.employee = employee;
             this.jacuzzis = jacuzzies;
             this.mapper = mapper;
             this.comments = comments;
@@ -53,9 +52,9 @@ namespace PoolDays.Controllers
 
         public IActionResult Add()
         {
-            if (!this.employee.UserIsEmployee(this.User.GetId()))
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
+                return Unauthorized();
             }
 
             return View(new JacuzziFormModel
@@ -67,19 +66,14 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Edit(int id)
         {
-            var employeeId = employee.EmployeeId(this.User.GetId());
+            var employeeId = this.User.GetId();
 
-            if (employeeId == 0 && !User.isAdmin())
-            {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
-            }
-
-            var jacuzzi = this.jacuzzis.Details(id);
-
-            if (jacuzzi.EmployeeId != employeeId && !User.isAdmin())
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
                 return Unauthorized();
             }
+
+            var jacuzzi = this.jacuzzis.Details(id);
 
             var jacuzziForm = mapper.Map<JacuzziFormModel>(jacuzzi);
             jacuzziForm.Categories = this.jacuzzis.AllJacuzziCategories();
@@ -101,11 +95,11 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add(JacuzziFormModel jacuzzi)
         {
-            var employeeId = employee.EmployeeId(this.User.GetId());
+            var employeeId = this.User.GetId();
 
-            if (employeeId == 0)
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
+                return Unauthorized();
             }
 
             if (!jacuzzis.CategoryExists(jacuzzi.CategoryId))
@@ -130,21 +124,16 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Edit(int id, JacuzziFormModel jacuzzi)
         {
-            var employeeId = employee.EmployeeId(this.User.GetId());
+            var employeeId = this.User.GetId();
 
-            if (employeeId == 0 && !User.isAdmin())
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
+                return Unauthorized();
             }
 
             var isEdited = this.jacuzzis.Edit(id, jacuzzi.Manufacturer, jacuzzi.Model, jacuzzi.Description, 
                 jacuzzi.Volume, jacuzzi.Length, jacuzzi.Height, jacuzzi.Width, jacuzzi.Price, jacuzzi.ImageUrl,
                 jacuzzi.CategoryId, employeeId);
-
-            if (!User.isAdmin())
-            {
-                return BadRequest();
-            }
 
             return RedirectToAction(nameof(All));
         }

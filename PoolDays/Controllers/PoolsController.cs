@@ -1,33 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PoolDays.Data;
-using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
-using PoolDays.Models;
 using PoolDays.Models.Comments;
 using PoolDays.Models.Pools;
 using PoolDays.Services.Comments;
-using PoolDays.Services.Employees;
 using PoolDays.Services.Pools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace PoolDays.Controllers
+
 {
+    using static WebConstants;
+
     public class PoolsController : Controller
     {
-        private readonly IEmployeeService employee;
         private readonly IPoolService pools;
         private readonly IMapper mapper;
         private readonly ICommentService comments;
 
-        public PoolsController(IEmployeeService employee, IPoolService pools, IMapper mapper, ICommentService comments)
+        public PoolsController(IPoolService pools, IMapper mapper, ICommentService comments)
         {
-            this.employee = employee;
             this.pools = pools;
             this.mapper = mapper;
             this.comments = comments;
@@ -54,9 +46,9 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.employee.UserIsEmployee(this.User.GetId()))
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
+                return Unauthorized();
             }
 
             return View(new PoolFormModel
@@ -68,16 +60,16 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Edit(int id)
         {
-            var employeeId = employee.EmployeeId(this.User.GetId());
+            var employeeId = this.User.GetId();
 
-            if (employeeId == 0 && !User.isAdmin())
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
+                return Unauthorized();
             }
 
             var pool = this.pools.Details(id);
 
-            if (pool.EmployeeId != employeeId && !User.isAdmin())
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
                 return Unauthorized();
             }
@@ -103,12 +95,7 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Add(PoolFormModel pool)
         {
-            var employeeId = employee.EmployeeId(this.User.GetId());
-
-            if (employeeId == 0)
-            {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
-            }
+            var employeeId = this.User.GetId();
 
             if (!pools.CategoryExists(pool.CategoryId))
             {
@@ -132,20 +119,15 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Edit(int id, PoolFormModel pool)
         {
-            var employeeId = employee.EmployeeId(this.User.GetId());
+            var employeeId = this.User.GetId();
 
-            if (employeeId == 0 && !User.isAdmin())
+            if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
-                return RedirectToAction(nameof(UsersController.Create), "Employees");
+                return Unauthorized();
             }
 
             var isEdited = this.pools.Edit(id, pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
                 pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
-
-            if (!User.isAdmin())
-            {
-                return BadRequest();
-            }
 
             return RedirectToAction(nameof(All));
         }
