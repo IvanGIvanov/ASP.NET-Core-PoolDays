@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PoolDays.Data;
 
 namespace PoolDays.Migrations
 {
     [DbContext(typeof(PoolDaysDBContext))]
-    partial class PoolDaysDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210815211821_ChangeEmployeeIdToString")]
+    partial class ChangeEmployeeIdToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -530,15 +532,14 @@ namespace PoolDays.Migrations
             modelBuilder.Entity("PoolDays.Data.Models.Jacuzzi", b =>
                 {
                     b.HasOne("PoolDays.Data.Models.Category", "Category")
-                        .WithMany("Jacuzzis")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PoolDays.Data.Models.User", "Employee")
-                        .WithMany("Jacuzzis")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Category");
 
@@ -554,9 +555,8 @@ namespace PoolDays.Migrations
                         .IsRequired();
 
                     b.HasOne("PoolDays.Data.Models.User", "Employee")
-                        .WithMany("Pools")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Category");
 
@@ -565,15 +565,6 @@ namespace PoolDays.Migrations
 
             modelBuilder.Entity("PoolDays.Data.Models.Category", b =>
                 {
-                    b.Navigation("Jacuzzis");
-
-                    b.Navigation("Pools");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.User", b =>
-                {
-                    b.Navigation("Jacuzzis");
-
                     b.Navigation("Pools");
                 });
 #pragma warning restore 612, 618

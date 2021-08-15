@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Services.Comments.Model;
@@ -12,8 +14,13 @@ namespace PoolDays.Services.Comments
     public class CommentService : ICommentService
     {
         private readonly PoolDaysDBContext data;
+        private readonly IMapper mapper;
 
-        public CommentService(PoolDaysDBContext data) => this.data = data;
+        public CommentService(PoolDaysDBContext data, IMapper mapper) 
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
 
         public int Create(string text, int productRankting, int poolId, int jacuzziId, string userId) 
         { 
@@ -22,7 +29,8 @@ namespace PoolDays.Services.Comments
                 Text = text,
                 ProductRankting = productRankting,
                 PoolId = poolId,
-                JacuzziId = jacuzziId
+                JacuzziId = jacuzziId,
+                UserId = userId
             };
 
             this.data.Comments.Add(commentData);
@@ -31,9 +39,15 @@ namespace PoolDays.Services.Comments
             return commentData.Id;
         }
 
-        public IEnumerable<CommentShowModel> ShowComment()
+        public IEnumerable<CommentShowModel> ShowComment(string employeeId)
         {
-            return null;
+            var commentsToShow = this.data
+                .Comments
+                .Where(c => c.UserId == employeeId)
+                .ProjectTo<CommentShowModel>(this.mapper.ConfigurationProvider)
+                .ToList();
+
+            return commentsToShow;
         }
     }
 }

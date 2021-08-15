@@ -33,11 +33,33 @@ namespace PoolDays.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
+                .Entity<Jacuzzi>()
+                .HasOne(p => p.Category)
+                .WithMany(p => p.Jacuzzis)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
                 .Entity<Comment>()
                 .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Comment>(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+              .Entity<Jacuzzi>()
+              .HasOne(j => j.Employee)
+              .WithMany(e => e.Jacuzzis)
+              .HasForeignKey(j => j.EmployeeId)
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Pool>()
+                .HasOne(j => j.Employee)
+                .WithMany(e => e.Pools)
+                .HasForeignKey(j => j.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             base.OnModelCreating(builder);
         }

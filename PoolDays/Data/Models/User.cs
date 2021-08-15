@@ -18,5 +18,9 @@ namespace PoolDays.Data.Models
         [Required]
         [MaxLength(UserLastNameMaxLength)]
         public string LastName { get; set; }
+
+        public IEnumerable<Pool> Pools { get; set; } = new List<Pool>();
+
+        public IEnumerable<Jacuzzi> Jacuzzis { get; set; } = new List<Jacuzzi>();
     }
 }

@@ -83,8 +83,13 @@ namespace PoolDays.Controllers
         
         public IActionResult Details(int id, ICommentService comments)
         {
+
+            var employeeId = this.User.GetId();
+
             var pool = this.pools
                  .Details(id);
+
+            var poolComments = comments.ShowComment(employeeId);
 
             var poolDetails = this.mapper.Map<PoolFormModel>(pool);
 
