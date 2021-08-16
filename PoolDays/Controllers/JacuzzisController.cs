@@ -86,7 +86,10 @@ namespace PoolDays.Controllers
             var jacuzzi = this.jacuzzis
                  .Details(id);
 
+            var showComments = this.comments.ShowJacuzziComment(id);
+
             var jacuzziDetails = this.mapper.Map<JacuzziFormModel>(jacuzzi);
+            jacuzziDetails.Comments = showComments;
 
             return View(jacuzziDetails);
         }
@@ -149,10 +152,11 @@ namespace PoolDays.Controllers
         public IActionResult AddComment(int id, CommentFormModel comment)
         {
             var userId = User.GetId();
+            var jacuzziId = id;
 
             this.comments.Create(comment.Text, comment.ProductRankting, comment.PoolId, id, userId);
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(All));
         }
     }
 }

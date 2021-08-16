@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PoolDays.Services.Comments;
+using PoolDays.Services.Comments.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -63,5 +65,7 @@ namespace PoolDays.Models.Pools
         public int CategoryId { get; init; }
 
         public IEnumerable<PoolCategoryServiceModel> Categories { get; set; }
+
+        public IEnumerable<CommentShowModel> Comments { get; set; }
     }
 }

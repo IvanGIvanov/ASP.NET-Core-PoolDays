@@ -23,14 +23,19 @@ namespace PoolDays.Services.Comments
         }
 
         public int Create(string text, int productRankting, int poolId, int jacuzziId, string userId) 
-        { 
+        {
+            var username = data
+                .Users
+                .FirstOrDefault(u => u.Id == userId);
+
             var commentData = new Comment
             {
                 Text = text,
                 ProductRankting = productRankting,
                 PoolId = poolId,
                 JacuzziId = jacuzziId,
-                UserId = userId
+                UserId = userId,
+                UserName = username.FirstName
             };
 
             this.data.Comments.Add(commentData);
@@ -39,12 +44,37 @@ namespace PoolDays.Services.Comments
             return commentData.Id;
         }
 
-        public IEnumerable<CommentShowModel> ShowComment(string employeeId)
+        public IEnumerable<CommentShowModel> ShowPoolComment(int productId)
         {
             var commentsToShow = this.data
                 .Comments
-                .Where(c => c.UserId == employeeId)
-                .ProjectTo<CommentShowModel>(this.mapper.ConfigurationProvider)
+                .Where(c => c.PoolId == productId)
+                .Select(c => new CommentShowModel
+                {
+                    Id = c.Id,
+                    Text = c.Text,
+                    Rating = c.ProductRankting,
+                    UserName = c.UserName,
+                    
+                })
+                .ToList();
+
+            return commentsToShow;
+        }
+
+        public IEnumerable<CommentShowModel> ShowJacuzziComment(int productId)
+        {
+            var commentsToShow = this.data
+                .Comments
+                .Where(c => c.JacuzziId == productId)
+                .Select(c => new CommentShowModel
+                {
+                    Id = c.Id,
+                    Text = c.Text,
+                    Rating = c.ProductRankting,
+                    UserName = c.UserName,
+
+                })
                 .ToList();
 
             return commentsToShow;

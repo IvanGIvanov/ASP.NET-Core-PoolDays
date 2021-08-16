@@ -64,10 +64,27 @@
                         <dd class="col-sm-6">Yes</dd>
                     }
                 }
-            </dl>  
-            <label class="text-info">Only one comment allowed</label>
+            </dl>
             <div>
                 <a asp-controller="Pools" asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-primary">Add to comment</a>
+                <dl>
+                    <h2>Comments:</h2>
+                    @{
+                        if (!Model.Comments.Any())
+                        {
+                            <h4>No comments found! You can write the first one.</h4>
+                        }
+                        else
+                        {
+                            foreach (var comment in Model.Comments)
+                            {
+                                <h3>@comment.UserName</h3>
+                                <h4>@comment.Text</h4>
+                                <label>Rating: @comment.Rating</label>
+                            }
+                        }
+                    }
+                </dl>
             </div>
         </div>
     </form>    

@@ -60,7 +60,11 @@ namespace PoolDays.Data
                 .HasForeignKey(j => j.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
+            builder
+                .Entity<Comment>()
+                .HasIndex(c => c.UserId)
+                .IsUnique(false);
+                
             base.OnModelCreating(builder);
         }
     }

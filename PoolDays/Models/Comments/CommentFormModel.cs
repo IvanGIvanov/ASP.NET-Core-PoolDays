@@ -22,5 +22,7 @@ namespace PoolDays.Models.Comments
         public int PoolId { get; set; }
 
         public int JacuzziId { get; set; }
+
+        public string UserName { get; set; }
     }
 }

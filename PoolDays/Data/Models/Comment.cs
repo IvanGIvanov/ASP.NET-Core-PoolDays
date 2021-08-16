@@ -28,5 +28,7 @@ namespace PoolDays.Data.Models
         public int? JacuzziId { get; set; }
 
         public IEnumerable<Jacuzzi> Jacuzzis { get; set; }
+
+        public string UserName { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PoolDays.Services.Comments.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -59,5 +60,7 @@ namespace PoolDays.Models.Jacuzzies
         public int CategoryId { get; set; }
 
         public IEnumerable<JacuzziCategoryServiceModel> Categories { get; set; }
+
+        public IEnumerable<CommentShowModel> Comments { get; set; }
     }
 }

@@ -10,6 +10,8 @@ namespace PoolDays.Services.Comments
     {
         public int Create(string text, int productRankting, int poolId, int jacuzziId, string userId);
 
-        public IEnumerable<CommentShowModel> ShowComment(string employeeId);
+        public IEnumerable<CommentShowModel> ShowPoolComment(int employeeId);
+
+        public IEnumerable<CommentShowModel> ShowJacuzziComment(int productId);
     }
 }
