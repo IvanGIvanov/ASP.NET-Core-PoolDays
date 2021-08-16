@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PoolDays.Data.Models;
+using PoolDays.Models.Blog;
 using PoolDays.Models.Home;
 using PoolDays.Models.Jacuzzies;
 using PoolDays.Models.Pools;
@@ -21,6 +22,8 @@ namespace PoolDays.Infrastructure
             this.CreateMap<Jacuzzi, JacuzziServiceModel>();
 
             this.CreateMap<Comment, CommentShowModel>();
+
+            this.CreateMap<Article, ArticleModel>();
         }
     }
 }

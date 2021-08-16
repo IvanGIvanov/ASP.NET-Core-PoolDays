@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PoolDays.Models.Blog;
+using PoolDays.Services.Blog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,15 @@ namespace PoolDays.Controllers
 {
     public class BlogController : Controller
     {
-        public IActionResult Article()
+        private readonly IBlogService articles;
+
+        public BlogController(IBlogService articles) => this.articles = articles;
+
+        public IActionResult Articles()
         {
-            return View();
+            var articlesShow = articles.AllArticles();
+
+            return View(articlesShow);
         }
     }
 }

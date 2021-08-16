@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PoolDays.Data;
 
 namespace PoolDays.Migrations
 {
     [DbContext(typeof(PoolDaysDBContext))]
-    partial class PoolDaysDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210816181911_AddImageToArticle")]
+    partial class AddImageToArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,10 +207,6 @@ namespace PoolDays.Migrations
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(5000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

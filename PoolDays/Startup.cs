@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using PoolDays.Data;
 using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
+using PoolDays.Services.Blog;
 using PoolDays.Services.Comments;
 using PoolDays.Services.Jacuzzies;
 using PoolDays.Services.Pools;
@@ -54,6 +55,7 @@ namespace PoolDays
             services.AddTransient<IPoolService, PoolService>();
             services.AddTransient<IJacuzziService, JacuzziService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IBlogService, BlogService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
