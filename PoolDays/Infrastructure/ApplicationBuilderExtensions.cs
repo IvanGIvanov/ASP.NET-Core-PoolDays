@@ -1,11 +1,11 @@
-﻿using PoolDays.Data;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
+using PoolDays.Data;
 using PoolDays.Data.Models;
 using System;
-using Microsoft.AspNetCore.Identity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PoolDays.Infrastructure

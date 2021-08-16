@@ -18,7 +18,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator") || User.IsInRole("Employee"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Pools" asp-action="Add">Add Pool</a>
@@ -33,11 +33,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Jacuzzis" asp-action="All">All Jacuzzis</a>
                         </li>
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Create">Employee Application</a>
-                    </li>}
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

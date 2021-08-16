@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PoolDays.Data
+﻿namespace PoolDays.Data
 {
     public class DataConstants
     {
@@ -84,6 +79,12 @@ namespace PoolDays.Data
         {
             public const int CommentMinLength = 2;
             public const int CommentMaxLength = 3000;
+        }
+
+        public class Article
+        {
+            public const int ArticleMinLength = 2;
+            public const int ArticleMaxLength = 5000;
         }
     }
 }

@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PoolDays.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PoolDays.Data
 {
@@ -22,6 +18,8 @@ namespace PoolDays.Data
         public DbSet<Jacuzzi> Jacuzzis { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
