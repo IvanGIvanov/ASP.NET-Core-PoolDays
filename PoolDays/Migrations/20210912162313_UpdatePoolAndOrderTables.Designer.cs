@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PoolDays.Data;
 
 namespace PoolDays.Migrations
 {
     [DbContext(typeof(PoolDaysDBContext))]
-    partial class PoolDaysDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210912162313_UpdatePoolAndOrderTables")]
+    partial class UpdatePoolAndOrderTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +169,21 @@ namespace PoolDays.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("OrderPool", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PoolsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersId", "PoolsId");
+
+                    b.HasIndex("PoolsId");
+
+                    b.ToTable("OrderPool");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.Article", b =>
@@ -352,24 +369,6 @@ namespace PoolDays.Migrations
                     b.ToTable("Pools");
                 });
 
-            modelBuilder.Entity("PoolDays.Data.Models.PoolOrder", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PoolId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderId", "PoolId");
-
-                    b.HasIndex("PoolId");
-
-                    b.ToTable("PoolOrder");
-                });
-
             modelBuilder.Entity("PoolDays.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -511,6 +510,21 @@ namespace PoolDays.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OrderPool", b =>
+                {
+                    b.HasOne("PoolDays.Data.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PoolDays.Data.Models.Pool", null)
+                        .WithMany()
+                        .HasForeignKey("PoolsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PoolDays.Data.Models.Comment", b =>
                 {
                     b.HasOne("PoolDays.Data.Models.User", null)
@@ -546,38 +560,9 @@ namespace PoolDays.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("PoolDays.Data.Models.PoolOrder", b =>
-                {
-                    b.HasOne("PoolDays.Data.Models.Order", "Order")
-                        .WithMany("PoolOrders")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PoolDays.Data.Models.Pool", "Pool")
-                        .WithMany("PoolOrders")
-                        .HasForeignKey("PoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Pool");
-                });
-
             modelBuilder.Entity("PoolDays.Data.Models.Category", b =>
                 {
                     b.Navigation("Pools");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.Order", b =>
-                {
-                    b.Navigation("PoolOrders");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.Pool", b =>
-                {
-                    b.Navigation("PoolOrders");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.User", b =>

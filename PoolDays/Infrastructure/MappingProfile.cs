@@ -2,10 +2,8 @@
 using PoolDays.Data.Models;
 using PoolDays.Models.Blog;
 using PoolDays.Models.Home;
-using PoolDays.Models.Jacuzzies;
 using PoolDays.Models.Pools;
 using PoolDays.Services.Comments.Model;
-using PoolDays.Services.Jacuzzies;
 using PoolDays.Services.Pools;
 
 namespace PoolDays.Infrastructure
@@ -17,9 +15,6 @@ namespace PoolDays.Infrastructure
             this.CreateMap<PoolServiceModel, PoolFormModel>();
             this.CreateMap<Pool, PoolIndexViewModel>();
             this.CreateMap<Pool, PoolServiceModel>();
-
-            this.CreateMap<JacuzziServiceModel, JacuzziFormModel>();
-            this.CreateMap<Jacuzzi, JacuzziServiceModel>();
 
             this.CreateMap<Comment, CommentShowModel>();
 

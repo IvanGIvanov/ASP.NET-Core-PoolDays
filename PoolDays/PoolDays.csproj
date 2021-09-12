@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Comments\**" />
+    <Content Remove="Views\Comments\**" />
+    <EmbeddedResource Remove="Views\Comments\**" />
+    <None Remove="Views\Comments\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.8" />
@@ -23,7 +30,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Views\Comments\" />
   </ItemGroup>
 
 </Project>

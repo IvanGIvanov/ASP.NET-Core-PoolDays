@@ -8,10 +8,8 @@ namespace PoolDays.Services.Comments
 {
     public interface ICommentService
     {
-        public int Create(string text, int productRankting, int poolId, int jacuzziId, string userId);
+        public int Create(string text, int productRankting, int poolId, string userId);
 
         public IEnumerable<CommentShowModel> ShowPoolComment(int employeeId);
-
-        public IEnumerable<CommentShowModel> ShowJacuzziComment(int productId);
     }
 }

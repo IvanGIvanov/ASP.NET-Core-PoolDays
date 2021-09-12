@@ -22,7 +22,7 @@ namespace PoolDays.Services.Comments
             this.mapper = mapper;
         }
 
-        public int Create(string text, int productRankting, int poolId, int jacuzziId, string userId) 
+        public int Create(string text, int productRankting, int poolId, string userId) 
         {
             var username = data
                 .Users
@@ -33,7 +33,6 @@ namespace PoolDays.Services.Comments
                 Text = text,
                 ProductRankting = productRankting,
                 PoolId = poolId,
-                JacuzziId = jacuzziId,
                 UserId = userId,
                 UserName = username.FirstName
             };
@@ -56,24 +55,6 @@ namespace PoolDays.Services.Comments
                     Rating = c.ProductRankting,
                     UserName = c.UserName,
                     
-                })
-                .ToList();
-
-            return commentsToShow;
-        }
-
-        public IEnumerable<CommentShowModel> ShowJacuzziComment(int productId)
-        {
-            var commentsToShow = this.data
-                .Comments
-                .Where(c => c.JacuzziId == productId)
-                .Select(c => new CommentShowModel
-                {
-                    Id = c.Id,
-                    Text = c.Text,
-                    Rating = c.ProductRankting,
-                    UserName = c.UserName,
-
                 })
                 .ToList();
 

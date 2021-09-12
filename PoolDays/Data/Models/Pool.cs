@@ -54,5 +54,7 @@ namespace PoolDays.Data.Models
 
         public IEnumerable<Comment> Comments { get; set; }
 
+        public IEnumerable<PoolOrder> PoolOrders { get; set; }
+
     }
 }

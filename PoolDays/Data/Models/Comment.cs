@@ -18,13 +18,9 @@ namespace PoolDays.Data.Models
         [Required]
         public int ProductRankting { get; set; }
 
-        public int? PoolId { get; set; }
+        public int PoolId { get; set; }
 
         public IEnumerable<Pool> Pools { get; set; }
-
-        public int? JacuzziId { get; set; }
-
-        public IEnumerable<Jacuzzi> Jacuzzis { get; set; }
 
         public string UserName { get; set; }
     }

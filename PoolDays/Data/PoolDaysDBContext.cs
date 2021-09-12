@@ -15,25 +15,21 @@ namespace PoolDays.Data
 
         public DbSet<Category> Categories { get; init; }
 
-        public DbSet<Jacuzzi> Jacuzzis { get; set; }
-
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
 
         public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<PoolOrder>()
+                .HasKey(po => new { po.OrderId, po.PoolId });
+
             builder
                 .Entity<Pool>()
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Pools)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Jacuzzi>()
-                .HasOne(p => p.Category)
-                .WithMany(p => p.Jacuzzis)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -45,17 +41,17 @@ namespace PoolDays.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-              .Entity<Jacuzzi>()
-              .HasOne(j => j.Employee)
-              .WithMany(e => e.Jacuzzis)
-              .HasForeignKey(j => j.EmployeeId)
-              .OnDelete(DeleteBehavior.Restrict);
-
-            builder
                 .Entity<Pool>()
                 .HasOne(j => j.Employee)
                 .WithMany(e => e.Pools)
                 .HasForeignKey(j => j.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Order>()
+                .HasOne<Pool>()
+                .WithOne()
+                .HasForeignKey<Order>(e => e.PoolId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

@@ -60,7 +60,6 @@ namespace PoolDays.Controllers
         [Authorize]
         public IActionResult Edit(int id)
         {
-            var employeeId = this.User.GetId();
 
             if (!User.IsInRole(AdministatorRoleName) && !User.IsInRole(EmployeeRoleName))
             {
@@ -148,7 +147,7 @@ namespace PoolDays.Controllers
             var userId = User.GetId();
             var poolId = id;
 
-            this.comments.Create(comment.Text, comment.ProductRankting, id, comment.JacuzziId, userId);
+            this.comments.Create(comment.Text, comment.ProductRankting, id, userId);
 
             return RedirectToAction(nameof(All));
         }

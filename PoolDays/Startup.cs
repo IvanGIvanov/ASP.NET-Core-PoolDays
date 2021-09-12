@@ -11,7 +11,6 @@ using PoolDays.Data.Models;
 using PoolDays.Infrastructure;
 using PoolDays.Services.Blog;
 using PoolDays.Services.Comments;
-using PoolDays.Services.Jacuzzies;
 using PoolDays.Services.Pools;
 using PoolDays.Services.Statistics;
 
@@ -53,7 +52,6 @@ namespace PoolDays
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IPoolService, PoolService>();
-            services.AddTransient<IJacuzziService, JacuzziService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IBlogService, BlogService>();
         }
