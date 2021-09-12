@@ -41,6 +41,13 @@ namespace PoolDays.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
+                .Entity<Order>()
+                .HasOne<Speditor>(s => s.Speditor)
+                .WithOne(o => o.Order)
+                .HasForeignKey<Order>(o => o.SpeditorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
                 .Entity<Pool>()
                 .HasOne(j => j.Employee)
                 .WithMany(e => e.Pools)

@@ -22,5 +22,7 @@ namespace PoolDays.Data.Models
         public int PoolId { get; set; }
 
         public IEnumerable<PoolOrder> PoolOrders { get; set; }
+
+        public Speditor Speditor { get; set; }
     }
 }

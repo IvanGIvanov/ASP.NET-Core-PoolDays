@@ -281,6 +281,9 @@ namespace PoolDays.Migrations
                     b.HasIndex("PoolId")
                         .IsUnique();
 
+                    b.HasIndex("SpeditorId")
+                        .IsUnique();
+
                     b.ToTable("Orders");
                 });
 
@@ -368,6 +371,24 @@ namespace PoolDays.Migrations
                     b.HasIndex("PoolId");
 
                     b.ToTable("PoolOrder");
+                });
+
+            modelBuilder.Entity("PoolDays.Data.Models.Speditor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpeditorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Speditor");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.User", b =>
@@ -526,6 +547,14 @@ namespace PoolDays.Migrations
                         .HasForeignKey("PoolDays.Data.Models.Order", "PoolId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("PoolDays.Data.Models.Speditor", "Speditor")
+                        .WithOne("Order")
+                        .HasForeignKey("PoolDays.Data.Models.Order", "SpeditorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Speditor");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.Pool", b =>
@@ -578,6 +607,11 @@ namespace PoolDays.Migrations
             modelBuilder.Entity("PoolDays.Data.Models.Pool", b =>
                 {
                     b.Navigation("PoolOrders");
+                });
+
+            modelBuilder.Entity("PoolDays.Data.Models.Speditor", b =>
+                {
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.User", b =>
