@@ -104,7 +104,7 @@ namespace PoolDays.Services.Pools
 
         public int Create(string manufacturer, string model, string description, double volume, double length, 
             double height, double width, bool pumpIncluded, bool stairway, string imageUrl, int categoryId, 
-            string employeeId)
+            string employeeId, decimal price)
         {
             var poolData = new Pool
             {
@@ -120,6 +120,7 @@ namespace PoolDays.Services.Pools
                 ImageUrl = imageUrl,
                 CategoryId = categoryId,
                 EmployeeId = employeeId,
+                Price = price,
             };
 
             this.data.Pools.Add(poolData);

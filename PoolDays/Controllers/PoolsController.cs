@@ -112,7 +112,7 @@ namespace PoolDays.Controllers
             }
 
             this.pools.Create(pool.Manufacturer, pool.Model, pool.Description, pool.Volume, pool.Length, pool.Height,
-                pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId);
+                pool.Width, pool.PumpIncluded, pool.Stairway, pool.ImageUrl, pool.CategoryId, employeeId, pool.Price);
 
             return RedirectToAction(nameof(All));
         }
