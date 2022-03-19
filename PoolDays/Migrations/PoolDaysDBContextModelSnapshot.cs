@@ -251,42 +251,6 @@ namespace PoolDays.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("PoolDays.Data.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("OrderPrice")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("PaymentType")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PoolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpeditorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PoolId")
-                        .IsUnique();
-
-                    b.HasIndex("SpeditorId")
-                        .IsUnique();
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("PoolDays.Data.Models.Pool", b =>
                 {
                     b.Property<int>("Id")
@@ -353,42 +317,6 @@ namespace PoolDays.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Pools");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.PoolOrder", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PoolId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderId", "PoolId");
-
-                    b.HasIndex("PoolId");
-
-                    b.ToTable("PoolOrder");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.Speditor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SpeditorName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Speditor");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.User", b =>
@@ -540,23 +468,6 @@ namespace PoolDays.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("PoolDays.Data.Models.Order", b =>
-                {
-                    b.HasOne("PoolDays.Data.Models.Pool", null)
-                        .WithOne()
-                        .HasForeignKey("PoolDays.Data.Models.Order", "PoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PoolDays.Data.Models.Speditor", "Speditor")
-                        .WithOne("Order")
-                        .HasForeignKey("PoolDays.Data.Models.Order", "SpeditorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Speditor");
-                });
-
             modelBuilder.Entity("PoolDays.Data.Models.Pool", b =>
                 {
                     b.HasOne("PoolDays.Data.Models.Category", "Category")
@@ -575,43 +486,9 @@ namespace PoolDays.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("PoolDays.Data.Models.PoolOrder", b =>
-                {
-                    b.HasOne("PoolDays.Data.Models.Order", "Order")
-                        .WithMany("PoolOrders")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PoolDays.Data.Models.Pool", "Pool")
-                        .WithMany("PoolOrders")
-                        .HasForeignKey("PoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Pool");
-                });
-
             modelBuilder.Entity("PoolDays.Data.Models.Category", b =>
                 {
                     b.Navigation("Pools");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.Order", b =>
-                {
-                    b.Navigation("PoolOrders");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.Pool", b =>
-                {
-                    b.Navigation("PoolOrders");
-                });
-
-            modelBuilder.Entity("PoolDays.Data.Models.Speditor", b =>
-                {
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("PoolDays.Data.Models.User", b =>

@@ -151,5 +151,10 @@ namespace PoolDays.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        public IActionResult Buy()
+        {
+            return View();
+        }
     }
 }

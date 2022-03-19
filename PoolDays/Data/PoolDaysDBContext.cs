@@ -17,14 +17,10 @@ namespace PoolDays.Data
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
-
         public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<PoolOrder>()
-                .HasKey(po => new { po.OrderId, po.PoolId });
 
             builder
                 .Entity<Pool>()
@@ -41,24 +37,10 @@ namespace PoolDays.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .Entity<Order>()
-                .HasOne<Speditor>(s => s.Speditor)
-                .WithOne(o => o.Order)
-                .HasForeignKey<Order>(o => o.SpeditorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
                 .Entity<Pool>()
                 .HasOne(j => j.Employee)
                 .WithMany(e => e.Pools)
                 .HasForeignKey(j => j.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Order>()
-                .HasOne<Pool>()
-                .WithOne()
-                .HasForeignKey<Order>(e => e.PoolId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
